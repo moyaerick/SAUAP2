@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>mx.desarrollo.sauap</groupId>
+        <groupId>mx.desarrollo</groupId>
         <artifactId>SAUAP</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -95,6 +95,8 @@
         </dependency>
 
 
+
+
         <!-- Weld para CDI -->
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
@@ -102,13 +104,13 @@
             <version>5.1.1.Final</version>
         </dependency>
         <dependency>
-            <groupId>mx.desarrollo.sauap</groupId>
+            <groupId>mx.desarrollo</groupId>
             <artifactId>entidad</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>mx.desarrollo.sauap</groupId>
+            <groupId>mx.desarrollo</groupId>
             <artifactId>negocio</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
@@ -116,7 +118,7 @@
 
 
         <dependency>
-            <groupId>mx.desarrollo.sauap</groupId>
+            <groupId>mx.desarrollo</groupId>
             <artifactId>persistencia</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

@@ -1,0 +1,6 @@
+mx\sauap\facade\FacadeUsuario.class
+mx\sauap\integration\ServiceFacadeLocator.class
+mx\sauap\Main.class
+mx\sauap\delegate\DelegateUsuario.class
+mx\sauap\facade\FacadeAlumno.class
+mx\sauap\delegate\DelegateAlumno.class

@@ -1,17 +1,16 @@
-import mx.lsc.desarrollo.sauap.dao.UsuarioDAO;
-import mx.lsc.desarrollo.sauap.persistence.HibernateUtil;
-import mx.desarrollo.sauap.entity.Usuario;
-
-import java.util.List;
+import mx.sauap.dao.AlumnoDAO;
+import mx.sauap.entity.Alumno;
+import mx.sauap.persistence.HibernateUtil;
 
 public class testDAO {
 
     public static void main(String[] args) {
-        UsuarioDAO usuarioDAO = new UsuarioDAO(HibernateUtil.getEntityManager());
+        AlumnoDAO alumnoDAO = new AlumnoDAO(HibernateUtil.getEntityManager());
 
 
-        for (Usuario usuario : usuarioDAO.findAll()) {
-            System.out.println(usuario + "|| id [" + usuario.getId() + "]");
+
+        for (Alumno alumno : alumnoDAO.findAll()) {
+            System.out.println(alumno + "|| id [" + alumno.getId()+ "]");
         }
     }
 }
