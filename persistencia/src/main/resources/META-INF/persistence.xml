@@ -14,7 +14,8 @@
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/desarrollo?useSSL=false&amp;serverTimezone=UTC"/>
+            <!-- AQUI TENGO QUE PONER MI PUERTO Y EL NOMBRE Q LE PUSE YO A LA BD :V -->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sauap?useSSL=false&amp;serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="root"/>
 
