@@ -8,7 +8,7 @@ public class testDAO {
         AlumnoDAO alumnoDAO = new AlumnoDAO(HibernateUtil.getEntityManager());
 
 
-//dww
+
         for (Alumno alumno : alumnoDAO.findAll()) {
             System.out.println(alumno + "|| id [" + alumno.getId()+ "]");
         }
