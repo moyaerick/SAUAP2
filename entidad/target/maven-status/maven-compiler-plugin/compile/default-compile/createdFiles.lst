@@ -1,9 +1,11 @@
+mx\sauap\entity\UnidadAprendizaje_.class
 mx\sauap\entity\Usuario_.class
-mx\sauap\entity\Alumno_.class
 mx\sauap\entity\Horario.class
+mx\sauap\entity\Horario_.class
 mx\sauap\entity\Usuario.class
 mx\sauap\entity\UnidadAprendizaje.class
 mx\sauap\entity\Asignacion.class
+mx\sauap\entity\Asignacion_.class
 mx\sauap\Main.class
 mx\sauap\entity\Profesor.class
-mx\sauap\entity\Alumno.class
+mx\sauap\entity\Profesor_.class

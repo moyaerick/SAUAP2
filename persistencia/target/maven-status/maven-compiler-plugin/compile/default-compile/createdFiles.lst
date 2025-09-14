@@ -5,6 +5,5 @@ mx\sauap\dao\ProfesorDAO.class
 mx\sauap\integration\ServiceLocator.class
 mx\sauap\Main.class
 mx\sauap\dao\AsignacionDAO.class
-mx\sauap\dao\AlumnoDAO.class
 mx\sauap\persistence\AbstractDAO.class
 mx\sauap\persistence\HibernateUtil.class
