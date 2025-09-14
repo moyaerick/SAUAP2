@@ -5,3 +5,4 @@ mx\sauap\entity\UnidadAprendizaje.class
 mx\sauap\entity\Asignacion.class
 mx\sauap\ui\LoginBeanUI.class
 mx\sauap\entity\Profesor.class
+mx\sauap\ui\UnidadBeanUI.class

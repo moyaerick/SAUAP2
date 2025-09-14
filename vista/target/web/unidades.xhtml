@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gestión de Unidades de Aprendizaje</title>
+    <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+</h:head>
+
+<h:body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <p:graphicImage url="resources/user.png" styleClass="logo-mini" />
+                <div>
+                    <strong>SAUAP</strong><br/>
+                    <small>Sistema Académico</small>
+                </div>
+            </div>
+
+            <div class="nav">
+                <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>         <span class="nav-text">Panel de Control</span></h:link>
+                <h:link outcome="/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>        <span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>         <span class="nav-text">Unidades de Aprendizaje</span></h:link>
+                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i>   <span class="nav-text">Asignaciones</span></h:link>
+            </div>
+
+            <div class="logout">
+                <h:form id="logoutForm">
+                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out"
+                                     styleClass="ui-button-secondary ui-button-flat"
+                                     action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
+                </h:form>
+            </div>
+        </aside>
+
+        <!-- Contenido -->
+        <section class="content">
+            <!-- Barra superior -->
+            <div class="topbar">
+                <span>Sistema de Asignación de Unidades de Aprendizaje a Profesores</span>
+            </div>
+
+            <!-- Área principal -->
+            <div class="main">
+                <h1>Gestión de Unidades de Aprendizaje</h1>
+                <div class="subtitle">
+                    Administra el registro e información de las Unidades de Aprendizaje
+                </div>
+
+                <!-- Formulario con tabla -->
+                <h:form id="formUnidades">
+
+                    <!-- Botón Nueva Unidad -->
+                    <p:commandButton value="Nueva UA"
+                                     icon="pi pi-plus"
+                                     styleClass="ui-button-success"
+                                     action="#{unidadControl.nuevaUnidad}" />
+                    <br/><br/>
+
+                    <!-- Tabla de Unidades -->
+                    <p:dataTable id="tablaUnidades"
+                                 value="#{unidadControl.listaUnidades}"
+                                 var="ua"
+                                 responsiveLayout="scroll"
+                                 emptyMessage="No hay unidades registradas">
+
+                        <p:column headerText="ID">
+                            <h:outputText value="#{ua.id}" />
+                        </p:column>
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{ua.nombre}" />
+                        </p:column>
+
+                        <p:column headerText="Horas Clase">
+                            <h:outputText value="#{ua.hrsClase}" />
+                        </p:column>
+
+                        <p:column headerText="Horas Taller">
+                            <h:outputText value="#{ua.hrsTaller}" />
+                        </p:column>
+
+                        <p:column headerText="Horas Lab">
+                            <h:outputText value="#{ua.hrsLab}" />
+                        </p:column>
+
+                        <p:column headerText="Total">
+                            <h:outputText value="#{ua.totalHoras}" />
+                        </p:column>
+
+                        <!-- Columna de Acciones -->
+                        <p:column headerText="Acciones">
+                            <p:commandButton icon="pi pi-pencil"
+                                             title="Editar"
+                                             action="#{unidadControl.editarUnidad(ua)}"
+                                             update=":formUnidades:tablaUnidades" />
+
+                            <p:commandButton icon="pi pi-trash"
+                                             title="Eliminar"
+                                             action="#{unidadControl.prepararEliminacion(ua)}"
+                                             update=":formUnidades:confirmDialog"
+                                             styleClass="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('confirmDialogWidget').show()" />
+                        </p:column>
+                    </p:dataTable>
+
+                    <!-- Confirmación de eliminación -->
+                    <p:confirmDialog id="confirmDialog"
+                                     header="Eliminar Unidad de Aprendizaje"
+                                     message="¿Estás seguro de que deseas eliminar esta Unidad Académica? Esta acción no se puede deshacer."
+                                     widgetVar="confirmDialogWidget"
+                                     closable="false"
+                                     draggable="false"
+                                     resizable="false">
+
+                        <p:commandButton value="Cancelar"
+                                         onclick="PF('confirmDialogWidget').hide()"
+                                         type="button"
+                                         styleClass="ui-button-secondary" />
+
+                        <p:commandButton value="Eliminar"
+                                         action="#{unidadControl.eliminarUAConfirmada}"
+                                         update=":formUnidades:tablaUnidades"
+                                         oncomplete="PF('confirmDialogWidget').hide()"
+                                         styleClass="ui-button-danger" />
+                    </p:confirmDialog>
+
+                </h:form>
+            </div>
+        </section>
+    </div>
+</h:body>
+<style>
+    .logo{
+        width: 170px; }
+    .celda{
+        width: 25%;
+        background-color: #089b4d;
+        color:white; }
+    .txt{
+        background: transparent;
+        box-shadow: none;
+        height: auto; width: auto; padding: 0; margin: 0;
+    }
+
+    html, body {
+        height:100%;
+        margin:0;
+        font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+    .app {
+        display:flex;
+        min-height:100vh; }
+    .sidebar {
+        width:220px;
+        background:#efefef;
+        display:flex;
+        flex-direction:column;
+        border-right:1px solid #ddd;
+        box-sizing: border-box;
+    }
+
+    .brand {
+        display:flex;
+        gap:10px; align-items:center;
+        padding:12px 14px;
+        background:#0f8a3b;
+        color:#fff; }
+    .logo-mini{
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        background:#fff; }
+    .nav {
+        padding:12px;
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        box-sizing: border-box;}
+    .nav .nav-item{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin: 0;
+        width:100%;
+        padding:10px 12px;
+        background:#fff;
+        border:1px solid #e3e3e3;
+        border-radius:8px;
+        text-decoration:none;
+        color:#333;
+        box-sizing: border-box;
+    }
+    .nav .nav-item:hover{
+        box-shadow:0 2px 8px rgba(0,0,0,.06);
+    }
+    .nav .nav-item i{
+        font-size:1rem;
+        line-height:1;
+    }
+    .ui-g{
+        background-color: white;
+        border-color:transparent ;
+    }
+    .logout {
+        padding:12px;
+        border-top:1px solid #ddd; }
+    .content { flex:1;
+        display:flex;
+        flex-direction:column; }
+    .topbar {
+        background:#177d39;
+        color:#fff;
+        padding:10px 18px;
+        font-size:14px;
+        display:flex;
+        align-items:center; }
+    .main {
+        padding:22px; }
+    h1 {
+        margin:0 0 6px 0;
+        font-size:30px; }
+    .subtitle {
+        color:#666;
+        margin-bottom:18px; }
+    .cards {
+        width:100%;
+        max-width:980px; }
+    .cards .ui-panel {
+        background:#f4f4f4;
+        border-radius:12px;
+        border:1px solid #e3e3e3;
+        box-shadow:0 3px 10px rgba(0,0,0,.06);
+        padding:16px; }
+    .card-title {
+        color:#555;
+        font-weight:700;
+        margin-bottom:10px;
+        display:block; }
+    .card-number {
+        font-size:26px;
+        font-weight:800;
+        color:#222;
+        margin-bottom:4px;
+        display:block; }
+    .card-sub {
+        color:#666;
+        font-size:13px;
+        display:block; }
+</style>
+</html>

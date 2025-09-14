@@ -1,27 +1,45 @@
 package mx.sauap.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import mx.sauap.entity.UnidadAprendizaje;
-import mx.sauap.persistence.AbstractDAO;
 
 import java.util.List;
 
-public class UnidadAprendizajeDAO extends AbstractDAO<UnidadAprendizaje> {
+public class UnidadAprendizajeDAO {
+
     private final EntityManager entityManager;
 
     public UnidadAprendizajeDAO(EntityManager em) {
-        super(UnidadAprendizaje.class);
         this.entityManager = em;
     }
 
+    // Obtener todas las Unidades
     public List<UnidadAprendizaje> obtenerTodos() {
-        return entityManager
-                .createQuery("SELECT u FROM Usuario u", UnidadAprendizaje.class)
-                .getResultList();
+        TypedQuery<UnidadAprendizaje> query =
+                entityManager.createQuery("SELECT u FROM UnidadAprendizaje u", UnidadAprendizaje.class);
+        return query.getResultList();
     }
 
-    @Override
-    public EntityManager getEntityManager() {
-        return entityManager;
+    // CRUD
+    public void guardar(UnidadAprendizaje ua) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(ua);
+        entityManager.getTransaction().commit();
+    }
+
+    public void actualizar(UnidadAprendizaje ua) {
+        entityManager.getTransaction().begin();
+        entityManager.merge(ua);
+        entityManager.getTransaction().commit();
+    }
+
+    public void eliminar(UnidadAprendizaje ua) {
+        entityManager.getTransaction().begin();
+        UnidadAprendizaje managed = entityManager.merge(ua);
+        entityManager.remove(managed);
+        entityManager.getTransaction().commit();
     }
 }
+
+

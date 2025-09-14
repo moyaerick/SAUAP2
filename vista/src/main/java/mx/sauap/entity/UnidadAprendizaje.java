@@ -33,44 +33,26 @@ public class UnidadAprendizaje {
     @Column(name = "hrs_lab", nullable = false)
     private Integer hrsLab;
 
-    public Integer getId() {
-        return id;
-    }
+    // ===== Getters y Setters =====
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public Integer getHrsClase() { return hrsClase; }
+    public void setHrsClase(Integer hrsClase) { this.hrsClase = hrsClase; }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+    public Integer getHrsTaller() { return hrsTaller; }
+    public void setHrsTaller(Integer hrsTaller) { this.hrsTaller = hrsTaller; }
 
-    public Integer getHrsClase() {
-        return hrsClase;
-    }
+    public Integer getHrsLab() { return hrsLab; }
+    public void setHrsLab(Integer hrsLab) { this.hrsLab = hrsLab; }
 
-    public void setHrsClase(Integer hrsClase) {
-        this.hrsClase = hrsClase;
+    @Transient
+    public Integer getTotalHoras() {
+        return (hrsClase != null ? hrsClase : 0) +
+                (hrsTaller != null ? hrsTaller : 0) +
+                (hrsLab != null ? hrsLab : 0);
     }
-
-    public Integer getHrsTaller() {
-        return hrsTaller;
-    }
-
-    public void setHrsTaller(Integer hrsTaller) {
-        this.hrsTaller = hrsTaller;
-    }
-
-    public Integer getHrsLab() {
-        return hrsLab;
-    }
-
-    public void setHrsLab(Integer hrsLab) {
-        this.hrsLab = hrsLab;
-    }
-
 }
