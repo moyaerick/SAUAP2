@@ -5,27 +5,26 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idusuario", nullable = false)
+    @Column(name = "ID_Usuario", nullable = false)
     private Integer id;
 
-    @Size(max = 45)
+    @Size(max = 50)
     @NotNull
-    @Column(name = "correo", nullable = false, length = 45)
-    private String correo;
+    @Column(name = "Nombre", nullable = false, length = 50)
+    private String nombre;
 
-    @Size(max = 45)
+    @Size(max = 20)
     @NotNull
-    @Column(name = "contrasena", nullable = false, length = 45)
-    private String contrasena;
+    @Column(name = "Psswd", nullable = false, length = 20)
+    private String psswd;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idAlumno", nullable = false)
-    private Alumno idAlumno;
+    @Column(name = "rol", nullable = false, columnDefinition = "ENUM('administrador','coordinador')")
+    private String rol;
 
     public Integer getId() {
         return id;
@@ -35,28 +34,28 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public String getPsswd() {
+        return psswd;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setPsswd(String psswd) {
+        this.psswd = psswd;
     }
 
-    public Alumno getIdAlumno() {
-        return idAlumno;
+    public String getRol() {
+        return rol;
     }
 
-    public void setIdAlumno(Alumno idAlumno) {
-        this.idAlumno = idAlumno;
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
 }

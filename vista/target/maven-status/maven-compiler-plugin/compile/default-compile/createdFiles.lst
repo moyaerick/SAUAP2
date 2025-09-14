@@ -1,2 +1,7 @@
+mx\sauap\entity\Horario.class
+mx\sauap\entity\Usuario.class
 mx\sauap\helper\LoginHelper.class
+mx\sauap\entity\UnidadAprendizaje.class
+mx\sauap\entity\Asignacion.class
 mx\sauap\ui\LoginBeanUI.class
+mx\sauap\entity\Profesor.class

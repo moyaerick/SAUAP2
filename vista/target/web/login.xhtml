@@ -18,8 +18,6 @@
                 margin: 0 auto;
                 
             }
-            
-           
             div.login{
                 position: absolute;
                 top:0;
@@ -60,12 +58,12 @@
                     </div>
                     <div class="panel-body">
                         <div class=" form-group">
-                            <p:inputText class ="form-control" placeholder ="Correo:" autocomplete="false" value ="#{loginUI.usuario.correo}" />
+                            <p:inputText class ="form-control" placeholder ="nombre:" autocomplete="false" value ="#{loginUI.usuario.nombre}" />
                         </div>
                         <div class="form-group">
-                            <p:password class ="form-control" placeholder="Contraseña: " value="#{loginUI.usuario.contrasena}" />
+                            <p:password class ="form-control" placeholder="Contraseña: " value="#{loginUI.usuario.psswd}" />
                         </div>
-                        <p:commandButton update="messages" class = "btn btn-success" value ="Iniciar sesion" actionListener ="#{loginUI.login()}" />
+                        <p:commandButton update="messages" class = "btn btn-success" value ="Iniciar sesion" action ="#{loginUI.login()}"  ajax = "false"/>
 
                     </div>
                 </div>
