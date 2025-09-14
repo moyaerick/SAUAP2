@@ -7,7 +7,6 @@ package mx.sauap.integration;
 
 
 import jakarta.persistence.EntityManager;
-import mx.sauap.dao.AlumnoDAO;
 import mx.sauap.dao.UsuarioDAO;
 import mx.sauap.persistence.HibernateUtil;
 
@@ -17,24 +16,15 @@ import mx.sauap.persistence.HibernateUtil;
  */
 public class ServiceLocator {
 
-    private static AlumnoDAO alumnoDAO;
     private static UsuarioDAO usuarioDAO;
 
-    private static EntityManager getEntityManager(){
+    public static EntityManager getEntityManager(){
         return HibernateUtil.getEntityManager();
     }
 
     /**
      * se crea la instancia para alumno DAO si esta no existe
      */
-    public static AlumnoDAO getInstanceAlumnoDAO(){
-        if(alumnoDAO == null){
-            alumnoDAO = new AlumnoDAO(getEntityManager());
-            return alumnoDAO;
-        } else{
-            return alumnoDAO;
-        }
-    }
     /**
      * se crea la instancia de usuarioDAO si esta no existe
      */
