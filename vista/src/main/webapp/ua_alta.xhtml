@@ -158,17 +158,17 @@
                 <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i>   <span class="nav-text">Asignaciones</span></h:link>
             </div>
 
-
             <div class="logout">
                 <h:form id="logoutForm">
-                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out" styleClass="ui-button-secondary ui-button-flat" action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
+                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out"
+                                     styleClass="ui-button-secondary ui-button-flat"
+                                     action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
                 </h:form>
             </div>
         </aside>
 
         <!-- Contenido -->
         <section class="content">
-            <!-- Barra superior (sin usuario) -->
             <div class="topbar">
                 <span>Sistema de Asignación de Unidades de Aprendizaje a Profesores</span>
             </div>
@@ -180,47 +180,70 @@
                 </div>
 
                 <!-- Formulario -->
-                <div class="panel-body">
-                    <div class="form-group" style="padding-bottom: 10px;">
-                        <p:outputLabel class ="form-label" style ="font-size:20px;" value ="Información de la Unidad de Aprendizaje"/>
-                        <p:outputLabel class ="form-label" style ="font-weight:normal;" value ="Completa todos los campos"/>
+                <h:form id="formAlta">
+                    <div class="panel-body">
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" style="font-size:20px;" value="Información de la Unidad de Aprendizaje"/>
+                            <p:outputLabel class="form-label" style="font-weight:normal;" value="Completa todos los campos"/>
+                        </div>
+
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" value="Nombre de la Unidad de Aprendizaje"/>
+                            <p:inputText class="form-control" style="width:70%;"
+                                         placeholder="Ingrese el nombre de la unidad:"
+                                         value="#{unidadControl.nuevaUA.nombre}"/>
+                        </div>
+
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" value="Horas Taller"/>
+                            <p:selectOneMenu style="width:70%;"
+                                             value="#{unidadControl.nuevaUA.hrsTaller}">
+                                <f:selectItem itemLabel="0 horas" itemValue="0"/>
+                                <f:selectItem itemLabel="1 horas" itemValue="1"/>
+                                <f:selectItem itemLabel="2 horas" itemValue="2"/>
+                                <f:selectItem itemLabel="3 horas" itemValue="3"/>
+                                <f:selectItem itemLabel="4 horas" itemValue="4"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" value="Horas Laboratorio"/>
+                            <p:selectOneMenu style="width:70%;"
+                                             value="#{unidadControl.nuevaUA.hrsLab}">
+                                <f:selectItem itemLabel="0 horas" itemValue="0"/>
+                                <f:selectItem itemLabel="1 horas" itemValue="1"/>
+                                <f:selectItem itemLabel="2 horas" itemValue="2"/>
+                                <f:selectItem itemLabel="3 horas" itemValue="3"/>
+                                <f:selectItem itemLabel="4 horas" itemValue="4"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" value="Horas Clase"/>
+                            <p:selectOneMenu style="width:70%;"
+                                             value="#{unidadControl.nuevaUA.hrsClase}">
+                                <f:selectItem itemLabel="0 horas" itemValue="0"/>
+                                <f:selectItem itemLabel="1 horas" itemValue="1"/>
+                                <f:selectItem itemLabel="2 horas" itemValue="2"/>
+                                <f:selectItem itemLabel="3 horas" itemValue="3"/>
+                                <f:selectItem itemLabel="4 horas" itemValue="4"/>
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div style="text-align: center; padding-top: 10px;">
+                            <p:commandButton value="Guardar"
+                                             styleClass="btn btn-success"
+                                             style="width: 35%; margin-right:10px;"
+                                             action="#{unidadControl.guardarUAAlta}"
+                                             ajax="false"/>
+
+                            <p:commandButton value="Cancelar"
+                                             style="width: 35%; background:white; color:black;"
+                                             action="#{unidadControl.cancelarAlta}"
+                                             immediate="true" ajax="false"/>
+                        </div>
                     </div>
-                    <div class="form-group" style="padding-bottom: 10px;">
-                        <p:outputLabel class ="form-label" value ="Nombre de la Unidad de Aprendizaje"/>
-                        <p:inputText class ="form-control" style ="width:70%;" placeholder="Ingrese el nombre de la unidad: "/>
-                    </div>
-                    <div class="form-group" style="padding-bottom: 10px;">
-                        <p:outputLabel class ="form-label" value ="Horas Taller"/>
-                        <p:selectOneMenu value="#{bean.horasTaller}">
-                            <f:selectItem itemLabel="0 horas" itemValue="0"/>
-                            <f:selectItem itemLabel="1 horas" itemValue="1"/>
-                            <f:selectItem itemLabel="2 horas" itemValue="2"/>
-                            <f:selectItem itemLabel="3 horas" itemValue="3"/>
-                        </p:selectOneMenu>
-                    </div>
-                    <div class="form-group" style="padding-bottom: 10px;">
-                        <p:outputLabel class ="form-label" value ="Horas Laboratorio"/>
-                        <p:selectOneMenu value="#{bean.horasLaboratorio}">
-                            <f:selectItem itemLabel="0 horas" itemValue="0"/>
-                            <f:selectItem itemLabel="1 horas" itemValue="1"/>
-                            <f:selectItem itemLabel="2 horas" itemValue="2"/>
-                            <f:selectItem itemLabel="3 horas" itemValue="3"/>
-                        </p:selectOneMenu>
-                    </div>
-                    <div class="form-group" style="padding-bottom: 10px;">
-                        <p:outputLabel class ="form-label" value ="Horas Clase"/>
-                        <p:selectOneMenu value="#{bean.horasClase}">
-                            <f:selectItem itemLabel="0 horas" itemValue="0"/>
-                            <f:selectItem itemLabel="1 horas" itemValue="1"/>
-                            <f:selectItem itemLabel="2 horas" itemValue="2"/>
-                            <f:selectItem itemLabel="3 horas" itemValue="3"/>
-                        </p:selectOneMenu>
-                    </div>
-                    <div style="text-align: center; padding-top: 10px;">
-                        <p:commandButton class = "btn btn-success" style="width: 35%; margin-right:10px;" value ="Guardar"/>
-                        <p:commandButton style="width: 35%; background:white; color:black;" value ="Cancelar"/>
-                    </div>
-                </div>
+                </h:form>
             </div>
         </section>
     </div>
