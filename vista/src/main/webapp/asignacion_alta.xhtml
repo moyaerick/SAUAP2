@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <style>
+        .logo{
+            width: 170px; }
+        .txt{
+            background: transparent;
+            box-shadow: none;
+            height: auto; width: auto; padding: 0; margin: 0;
+        }
+        div.panel-body{
+            height: 77%;
+            width: 38%;
+            padding: 25px;
+            margin: auto;
+            background: #dcdbdb;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .form-label{
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        html, body {
+            height:100%;
+            margin:0;
+            font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+        .app {
+            display:flex;
+            min-height:100vh; }
+        .sidebar {
+            width:220px;
+            background:#efefef;
+            display:flex;
+            flex-direction:column;
+            border-right:1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .brand {
+            display:flex;
+            gap:10px; align-items:center;
+            padding:12px 14px;
+            background:#0f8a3b;
+            color:#fff; }
+        .logo-mini{
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background:#fff; }
+        .nav {
+            padding:12px;
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            box-sizing: border-box;}
+        .nav .nav-item{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin: 0;
+            width:100%;
+            padding:10px 12px;
+            background:#fff;
+            border:1px solid #e3e3e3;
+            border-radius:8px;
+            text-decoration:none;
+            color:#333;
+            box-sizing: border-box;
+        }
+        .nav .nav-item:hover{
+            box-shadow:0 2px 8px rgba(0,0,0,.06);
+        }
+        .nav .nav-item i{
+            font-size:1rem;
+            line-height:1;
+        }
+        .ui-g{
+            background-color: white;
+            border-color:transparent ;
+        }
+        .logout {
+            padding:12px;
+            border-top:1px solid #ddd; }
+        .content { flex:1;
+            display:flex;
+            flex-direction:column; }
+        .topbar {
+            background:#177d39;
+            color:#fff;
+            padding:10px 18px;
+            font-size:14px;
+            display:flex;
+            align-items:center; }
+        .main {
+            padding:22px; }
+        h1 {
+            margin:0 0 6px 0;
+            font-size:30px; }
+        .subtitle {
+            color:#666;
+            margin-bottom:18px; }
+        .cards {
+            width:100%;
+            max-width:980px; }
+        .cards .ui-panel {
+            background:#f4f4f4;
+            border-radius:12px;
+            border:1px solid #e3e3e3;
+            box-shadow:0 3px 10px rgba(0,0,0,.06);
+            padding:16px; }
+        .card-title {
+            color:#555;
+            font-weight:700;
+            margin-bottom:10px;
+            display:block; }
+        .card-number {
+            font-size:26px;
+            font-weight:800;
+            color:#222;
+            margin-bottom:4px;
+            display:block; }
+        .card-sub {
+            color:#666;
+            font-size:13px;
+            display:block; }
+    </style>
+    <title>SAUAP - Unidades de Aprendizaje</title>
+    <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+</h:head>
+
+<h:body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <p:graphicImage url="resources/user.png" styleClass="logo-mini" />
+                <div>
+                    <strong>SAUAP</strong><br/>
+                    <small>Sistema Académico</small>
+                </div>
+            </div>
+
+            <div class="nav">
+                <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>         <span class="nav-text">Panel de Control</span></h:link>
+                <h:link outcome="/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>        <span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>         <span class="nav-text">Unidades de Aprendizaje</span></h:link>
+                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i>   <span class="nav-text">Asignaciones</span></h:link>
+            </div>
+
+
+            <div class="logout">
+                <h:form id="logoutForm">
+                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out" styleClass="ui-button-secondary ui-button-flat" action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
+                </h:form>
+            </div>
+        </aside>
+
+        <!-- Contenido -->
+        <section class="content">
+            <!-- Barra superior (sin usuario) -->
+            <div class="topbar">
+                <span>Sistema de Asignación de Unidades de Aprendizaje a Profesores</span>
+            </div>
+
+            <div class="main">
+                <h1>Nueva Asignación</h1>
+                <div class="subtitle">
+                    Asigna una unidad de aprendizaje a un profesor
+                </div>
+
+                <!-- Formulario -->
+                <div class="panel-body">
+                    <div class="form-group" style="padding-bottom: 10px;">
+                        <p:outputLabel class ="form-label" style ="font-size:20px;" value ="Información de la Asignación"/>
+                        <p:outputLabel class ="form-label" style ="font-weight:normal;" value ="Completa todos los campos"/>
+                    </div>
+                    <div class="form-group" style="padding-bottom: 10px;">
+                        <p:outputLabel class ="form-label" value ="Nombre del profesor"/>
+                        <p:inputText class ="form-control" style ="width:70%;" placeholder="Ingrese el nombre del profesor: "/>
+                    </div>
+                    <div class="form-group" style="padding-bottom: 10px; display:flex; gap:30px;">
+                        <div style="flex:1;">
+                            <p:outputLabel class ="form-label" value ="Día"/>
+                            <p:selectOneMenu value="#{bean.dia}">
+                                <f:selectItem itemLabel="Lun" itemValue="Lun"/>
+                                <f:selectItem itemLabel="Mar" itemValue="Mar"/>
+                                <f:selectItem itemLabel="Mie" itemValue="Mie"/>
+                                <f:selectItem itemLabel="Jue" itemValue="Jue"/>
+                                <f:selectItem itemLabel="Vie" itemValue="Vie"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div style="flex:1;">
+                            <p:outputLabel class ="form-label" value ="Unidad de Aprendizaje"/>
+                            <p:selectOneMenu value="#{bean.unidadAprendizaje}">
+                                <f:selectItem itemLabel="Matemáticas Discretas" itemValue="Matemáticas Discretas"/>
+                                <f:selectItem itemLabel="Redes de Computadoras" itemValue="Redes de Computadoras"/>
+                                <f:selectItem itemLabel="Base de Datos" itemValue="Base de Datos"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="form-group" style="padding-bottom: 10px; display:flex; gap:30px;">
+                        <div style="flex:1;">
+                            <p:outputLabel class ="form-label" value ="Horas Inicio"/>
+                            <p:selectOneMenu value="#{bean.horaInicio}">
+                                <f:selectItem itemLabel="8:00 horas" itemValue="8:00"/>
+                                <f:selectItem itemLabel="9:00 horas" itemValue="9:00"/>
+                                <f:selectItem itemLabel="10:00 horas" itemValue="10:00"/>
+                                <f:selectItem itemLabel="11:00 horas" itemValue="11:00"/>
+                                <f:selectItem itemLabel="12:00 horas" itemValue="12:00"/>
+                                <f:selectItem itemLabel="13:00 horas" itemValue="13:00"/>
+                                <f:selectItem itemLabel="14:00 horas" itemValue="14:00"/>
+                                <f:selectItem itemLabel="15:00 horas" itemValue="15:00"/>
+                                <f:selectItem itemLabel="16:00 horas" itemValue="16:00"/>
+                                <f:selectItem itemLabel="17:00 horas" itemValue="17:00"/>
+                                <f:selectItem itemLabel="18:00 horas" itemValue="18:00"/>
+                                <f:selectItem itemLabel="19:00 horas" itemValue="19:00"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <div style="flex:1;">
+                            <p:outputLabel class ="form-label" value ="Horas Fin"/>
+                            <p:selectOneMenu value="#{bean.horaFin}">
+                                <f:selectItem itemLabel="9:00 horas" itemValue="9:00"/>
+                                <f:selectItem itemLabel="10:00 horas" itemValue="10:00"/>
+                                <f:selectItem itemLabel="11:00 horas" itemValue="11:00"/>
+                                <f:selectItem itemLabel="12:00 horas" itemValue="12:00"/>
+                                <f:selectItem itemLabel="13:00 horas" itemValue="13:00"/>
+                                <f:selectItem itemLabel="14:00 horas" itemValue="14:00"/>
+                                <f:selectItem itemLabel="15:00 horas" itemValue="15:00"/>
+                                <f:selectItem itemLabel="16:00 horas" itemValue="16:00"/>
+                                <f:selectItem itemLabel="17:00 horas" itemValue="17:00"/>
+                                <f:selectItem itemLabel="18:00 horas" itemValue="18:00"/>
+                                <f:selectItem itemLabel="19:00 horas" itemValue="19:00"/>
+                                <f:selectItem itemLabel="20:00 horas" itemValue="20:00"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding-top: 10px;">
+                        <p:commandButton class = "btn btn-success" style="width: 35%; margin-right:10px;" value ="Guardar"/>
+                        <p:commandButton style="width: 35%; background:white; color:black;" value ="Cancelar"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</h:body>
+</html>
