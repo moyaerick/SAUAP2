@@ -61,12 +61,17 @@ public class LoginBeanUI implements Serializable {
     }
 
     public String logout() {
-        FacesContext.getCurrentInstance().getExternalContext();
-        usuario = null;
-        // navegar al login con redirect (evita volver con el boton atras)
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+
+        // Invalida toda la sesión
+        externalContext.invalidateSession();
+
+        // Redirige al login.xhtml con redirect
         return "/login.xhtml?faces-redirect=true";
     }
-    
+
+
     /* getters y setters*/
 
     public Usuario getUsuario() {
@@ -76,16 +81,5 @@ public class LoginBeanUI implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-
     
 }

@@ -24,7 +24,7 @@ public class DelegateUsuario {
         try {
             return em.createQuery(
                             "SELECT u FROM Usuario u " +
-                                    "WHERE LOWER(u.nombre) = :n AND u.psswd = :p",
+                                    "WHERE u.nombre = :n AND u.psswd = :p",
                             Usuario.class)
                     .setParameter("n", n.toLowerCase())
                     .setParameter("p", p)
