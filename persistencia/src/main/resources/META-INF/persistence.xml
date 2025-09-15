@@ -9,12 +9,14 @@
 
         <!-- Declaración manual de entidades -->
         <class>mx.sauap.entity.Usuario</class>
+        <class>mx.sauap.entity.UnidadAprendizaje</class>
+        <class>mx.sauap.entity.Asignacion</class>
         <class>mx.sauap.entity.Profesor</class>
 
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sauap?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/sauap?useSSL=false&amp;serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value="root"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>

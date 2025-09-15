@@ -9,8 +9,9 @@
 
         <!-- Declaración manual de entidades -->
         <class>mx.sauap.entity.Usuario</class>
+        <class>mx.sauap.entity.UnidadAprendizaje</class>
+        <class>mx.sauap.entity.Asignacion</class>
         <class>mx.sauap.entity.Profesor</class>
-
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

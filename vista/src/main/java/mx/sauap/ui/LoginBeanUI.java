@@ -70,8 +70,7 @@ public class LoginBeanUI implements Serializable {
         // Redirige al login.xhtml con redirect
         return "/login.xhtml?faces-redirect=true";
     }
-
-
+    
     /* getters y setters*/
 
     public Usuario getUsuario() {
@@ -81,5 +80,4 @@ public class LoginBeanUI implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
 }

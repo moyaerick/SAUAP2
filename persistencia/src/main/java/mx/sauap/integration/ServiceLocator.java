@@ -19,6 +19,7 @@ public class ServiceLocator {
     private static UsuarioDAO usuarioDAO;
 
     public static EntityManager getEntityManager(){
+
         return HibernateUtil.getEntityManager();
     }
 
