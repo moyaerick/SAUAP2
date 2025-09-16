@@ -3,6 +3,7 @@ C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\delegate\Login
 C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\facade\SistemaAcademicoFacade.java
 C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\integration\ServiceFacadeLocator.java
 C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\delegate\UnidadAprendizajeDelegate.java
+C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\gestores\GestorProfesor.java
 C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\Main.java
 C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\facade\FacadeUsuario.java
 C:\Users\Raider\IdeaProjects\SAUAP\negocio\src\main\java\mx\sauap\delegate\AsignacionDelegate.java
