@@ -7,10 +7,10 @@ import java.util.List;
 import mx.sauap.delegate.UnidadAprendizajeDelegate;
 import mx.sauap.entity.UnidadAprendizaje;
 
-import java.util.List;
 
 public class SistemaAcademicoFacade {
     private GestorProfesor gestorProfesor;
+    private UnidadAprendizajeDelegate delegate;
 
     public SistemaAcademicoFacade(GestorProfesor gestorProfesor) {
         this.gestorProfesor = gestorProfesor;
@@ -24,7 +24,6 @@ public class SistemaAcademicoFacade {
         gestorProfesor.agregarProfesor(profesor);
     }
 
-    private final UnidadAprendizajeDelegate delegate;
 
     public SistemaAcademicoFacade() {
         this.delegate = new UnidadAprendizajeDelegate();
