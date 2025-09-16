@@ -24,6 +24,7 @@ public class UnidadBeanUI implements Serializable {
 
     private UnidadAprendizaje unidadAEliminar;
     private UnidadAprendizaje nuevaUA;
+    private UnidadAprendizaje unidadAEditar;
 
     @PostConstruct
     public void init() {
@@ -37,6 +38,20 @@ public class UnidadBeanUI implements Serializable {
         nuevaUA.setHrsTaller(0);
         nuevaUA.setHrsLab(0);
         return "/ua_alta.xhtml?faces-redirect=true";
+    }
+
+    public void prepararEdicion(UnidadAprendizaje ua) {//aqui prepara la edicion al dar click al boton de editar
+        this.unidadAEditar = ua;
+    }
+
+    public void guardarEdicion() {
+        if (unidadAEditar != null) {
+            facade.actualizarUA(unidadAEditar);
+            listaUnidades = facade.consultarUA();
+            listaUnidades.sort(byNombre);
+            aplicarFiltro(); // mantener filtro aplicado
+            unidadAEditar = null;
+        }
     }
 
 
@@ -125,6 +140,13 @@ public class UnidadBeanUI implements Serializable {
     public String cancelarAlta() {
         nuevaUA = null;
         return "/unidades.xhtml?faces-redirect=true";
+    }
+
+    public UnidadAprendizaje getUnidadAEditar() {
+        return unidadAEditar;
+    }
+    public void setUnidadAEditar(UnidadAprendizaje unidadAEditar) {
+        this.unidadAEditar = unidadAEditar;
     }
 
 }
