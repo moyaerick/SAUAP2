@@ -1,26 +1,22 @@
 package mx.sauap.ui;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Persistence;
-import mx.sauap.dao.ProfesorDAO;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import mx.sauap.delegate.ProfesorDelegate;
 import mx.sauap.entity.Profesor;
 import mx.sauap.facade.SistemaAcademicoFacade;
-import mx.sauap.gestores.GestorProfesor;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 @Named("profesorBean")
-@RequestScoped
-public class ProfesorUI {
+@ViewScoped
+public class ProfesorUI implements Serializable {
 
     private ProfesorDelegate delegate;
     private List<Profesor> profesores;
@@ -32,33 +28,43 @@ public class ProfesorUI {
     private String apSegundo;
     private String rfc;
 
-    @PostConstruct
-    public void init() {
-        try {
-            EntityManager em = Persistence
-                    .createEntityManagerFactory("persistencePU")
-                    .createEntityManager();
-
-            ProfesorDAO dao = new ProfesorDAO(em);
-            GestorProfesor gestor = new GestorProfesor(dao);
-            SistemaAcademicoFacade facade = new SistemaAcademicoFacade(gestor);
-            delegate = new ProfesorDelegate(facade);
-
-            profesores = delegate.obtenerProfesores();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public ProfesorUI() {
     }
 
-    public List<Profesor> getProfesores() {
-        List<Profesor> lista = delegate != null ? delegate.obtenerProfesores() : null;
-        System.out.println("Profesores cargados: " + (lista != null ? lista.size() : "null"));
-        return profesores;
+    @PostConstruct
+    public void init() {
+        delegate = new ProfesorDelegate(new SistemaAcademicoFacade());
+        profesores = delegate.obtenerProfesores();
+        if (profesores == null) profesores = new ArrayList<Profesor>();
+        ordenarPorNombre();
+        listaFiltrada = new ArrayList<Profesor>(profesores);
+
+
+        if (delegate == null) {
+            delegate = new ProfesorDelegate(new SistemaAcademicoFacade());
+        }
+
+
+        profesores = delegate.obtenerProfesores();
+        if (profesores == null) {
+            profesores = new ArrayList<Profesor>();
+        }
+
+        ordenarPorNombre();
+        listaFiltrada = new ArrayList<Profesor>(profesores);
+    }
+
+    private void ordenarPorNombre() {
+        Collections.sort(profesores, new Comparator<Profesor>() {
+            public int compare(Profesor a, Profesor b) {
+                String na = (a.getNombre() == null) ? "" : a.getNombre().toLowerCase();
+                String nb = (b.getNombre() == null) ? "" : b.getNombre().toLowerCase();
+                return na.compareTo(nb);
+            }
+        });
     }
 
     public String guardarProfesor() {
-        System.out.println("Entró a guardarProfesor");
         try {
             Profesor profesor = new Profesor();
             profesor.setNombre(nombre);
@@ -68,43 +74,98 @@ public class ProfesorUI {
 
             delegate.insertarProfesor(profesor);
 
-            // Actualizar la lista de profesores
             profesores = delegate.obtenerProfesores();
+            ordenarPorNombre();
+            aplicarFiltro();
 
-            // Limpiar campos del formulario
-            nombre = apPrimero = apSegundo = rfc = null;
+            profesores = delegate.obtenerProfesores();
+            if (profesores == null) {
+                profesores = new ArrayList<Profesor>();
+            }
+            ordenarPorNombre();
+            listaFiltrada = new ArrayList<Profesor>(profesores);
 
-            // Mensaje de éxito
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Profesor registrado correctamente"));
+            nombre = null;
+            apPrimero = null;
+            apSegundo = null;
+            rfc = null;
 
-            return null; // quedarse en la misma página
-
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito", "Profesor registrado correctamente")
+            );
+            return null;
         } catch (Exception e) {
-            e.printStackTrace();
-
-            // Mensaje de error
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo registrar el profesor"));
-
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo registrar el profesor")
+            );
             return null;
         }
     }
 
-    // ===== GETTERS Y SETTERS =====
+    public void aplicarFiltro() {
+        if (profesores == null) {
+            profesores = new ArrayList<Profesor>();
+        }
+        ordenarPorNombre();
+
+        if (nombreFiltro == null || nombreFiltro.trim().isEmpty()) {
+            listaFiltrada = new ArrayList<Profesor>(profesores);
+            return;
+        }
+
+        String pref = nombreFiltro.toLowerCase().trim();
+
+        int i = lowerBound(profesores, pref);
+        List<Profesor> out = new ArrayList<Profesor>();
+        while (i < profesores.size()) {
+            String n = (profesores.get(i).getNombre() == null) ? "" : profesores.get(i).getNombre().toLowerCase();
+            if (n.startsWith(pref)) {
+                out.add(profesores.get(i));
+                i++;
+            } else {
+                break;
+            }
+        }
+        listaFiltrada = out;
+    }
+
+    private int lowerBound(List<Profesor> list, String pref) {
+        int lo = 0;
+        int hi = list.size();
+        while (lo < hi) {
+            int mid = (lo + hi) >>> 1;
+            String n = (list.get(mid).getNombre() == null) ? "" : list.get(mid).getNombre().toLowerCase();
+            if (n.compareTo(pref) < 0) {
+                lo = mid + 1;
+            } else {
+                hi = mid;
+            }
+        }
+        return lo;
+    }
+
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+
     public List<Profesor> getListaProfesores() {
         return profesores;
     }
 
     public List<Profesor> getListaFiltrada() {
+        if (listaFiltrada == null) {
+            listaFiltrada = new ArrayList<Profesor>(profesores);
+        }
         return listaFiltrada;
     }
 
-    public String getFiltro() {
+    public String getNombreFiltro() {
         return nombreFiltro;
     }
 
-    public void setFiltro(String nombreFiltro) {
+    public void setNombreFiltro(String nombreFiltro) {
         this.nombreFiltro = nombreFiltro;
     }
 
@@ -139,47 +200,4 @@ public class ProfesorUI {
     public void setRfc(String rfc) {
         this.rfc = rfc;
     }
-
-
-    // Getter y setter de nombreFiltro
-    public String getNombreFiltro() { return nombreFiltro; }
-    public void setNombreFiltro(String nombreFiltro) { this.nombreFiltro = nombreFiltro; }
-
-    //filtro simple por busqueda binaria
-    public void aplicarFiltro() {
-        // Asegúrate de ordenar primero
-        profesores.sort(Comparator.comparing(p -> (p.getNombre() == null ? "" : p.getNombre().toLowerCase())));
-
-        if (nombreFiltro == null || nombreFiltro.trim().isEmpty()) {
-            listaFiltrada = new ArrayList<>(profesores);
-            return;
-        }
-        String pref = nombreFiltro.toLowerCase().trim();
-
-        int i = lowerBound(profesores, pref);   // primer indice cuyo nombre >= pref
-        List<Profesor> out = new ArrayList<>();
-        while (i < profesores.size()) {
-            String n = (profesores.get(i).getNombre() == null ? "" : profesores.get(i).getNombre().toLowerCase());
-            if (n.startsWith(pref)) {
-                out.add(profesores.get(i));
-                i++;
-            } else {
-                break; // ya no hay mas coincidencias de ese prefijo
-            }
-        }
-        listaFiltrada = out;
-    }
-
-    // busqueda binaria para encontrar el primer indice cuyo nombre >= pref
-    private int lowerBound(List<Profesor> list, String pref) {
-        int lo = 0, hi = list.size();
-        while (lo < hi) {
-            int mid = (lo + hi) >>> 1;
-            String n = (list.get(mid).getNombre() == null ? "" : list.get(mid).getNombre().toLowerCase());
-            if (n.compareTo(pref) < 0) lo = mid + 1;
-            else hi = mid;
-        }
-        return lo;
-    }
-
 }

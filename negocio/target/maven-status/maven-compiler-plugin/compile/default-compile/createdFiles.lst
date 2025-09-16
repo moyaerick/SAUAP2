@@ -3,6 +3,7 @@ mx\sauap\delegate\ProfesorDelegate.class
 mx\sauap\delegate\AsignacionDelegate.class
 mx\sauap\facade\SistemaAcademicoFacade.class
 mx\sauap\delegate\UnidadAprendizajeDelegate.class
+mx\sauap\gestores\GestorProfesor.class
 mx\sauap\integration\ServiceFacadeLocator.class
 mx\sauap\Main.class
 mx\sauap\delegate\DelegateUsuario.class
