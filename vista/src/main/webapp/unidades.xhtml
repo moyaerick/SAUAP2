@@ -115,9 +115,8 @@
                             <p:column headerText="Acciones">
                                 <p:commandButton icon="pi pi-pencil"
                                                  title="Editar"
-                                                 actionListener="#{unidadControl.prepararEdicion(ua)}"
-                                                 update=":formEditarUA"
-                                                 oncomplete="PF('dlgEditarUA').show()"
+                                                 action="#{unidadControl.irModificarUA(ua)}"
+                                                 ajax="false"
                                                  styleClass="ui-button-secondary ui-button-text ui-button-rounded action-btn" />
 
                                 <p:commandButton icon="pi pi-trash"

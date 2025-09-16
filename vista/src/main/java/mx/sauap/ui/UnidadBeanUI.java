@@ -1,7 +1,7 @@
 package mx.sauap.ui;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import mx.sauap.entity.UnidadAprendizaje;
 import mx.sauap.facade.SistemaAcademicoFacade;
 
 @Named("unidadControl")
-@ViewScoped
+@SessionScoped
 public class UnidadBeanUI implements Serializable {
 
     private final SistemaAcademicoFacade facade = new SistemaAcademicoFacade();
@@ -40,11 +40,7 @@ public class UnidadBeanUI implements Serializable {
         return "/ua_alta.xhtml?faces-redirect=true";
     }
 
-    public void prepararEdicion(UnidadAprendizaje ua) {//aqui prepara la edicion al dar click al boton de editar
-        this.unidadAEditar = ua;
-    }
-
-    public void guardarEdicion() {
+    public String guardarEdicion() {
         if (unidadAEditar != null) {
             facade.actualizarUA(unidadAEditar);
             listaUnidades = facade.consultarUA();
@@ -52,7 +48,9 @@ public class UnidadBeanUI implements Serializable {
             aplicarFiltro(); // mantener filtro aplicado
             unidadAEditar = null;
         }
+        return "/unidades.xhtml?faces-redirect=true";
     }
+
 
 
     //filtro simple por prefijo con busqueda binaria
@@ -147,6 +145,11 @@ public class UnidadBeanUI implements Serializable {
     }
     public void setUnidadAEditar(UnidadAprendizaje unidadAEditar) {
         this.unidadAEditar = unidadAEditar;
+    }
+
+    public String irModificarUA(UnidadAprendizaje ua) {
+        this.unidadAEditar = ua;
+        return "/ua_modificar.xhtml?faces-redirect=true";
     }
 
 }
