@@ -25,6 +25,7 @@ public class LoginBeanUI implements Serializable {
     private Usuario usuario;
     
     public LoginBeanUI() {
+
         loginHelper = new LoginHelper();
     }
     
@@ -34,6 +35,7 @@ public class LoginBeanUI implements Serializable {
      */
     @PostConstruct
     public void init(){
+
         usuario= new Usuario();
     }
 
@@ -41,24 +43,27 @@ public class LoginBeanUI implements Serializable {
         try {
             Usuario auth = loginHelper.Login(usuario.getNombre(), usuario.getPsswd());
             if (auth == null) {
-                // intento fallido: no navegar, permitir reintento
-                if (usuario != null) usuario.setPsswd(""); // opcional, limpiar pass
+                if (usuario != null) usuario.setPsswd("");
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_WARN,
                                 "Usuario o contraseña incorrecta", "Intente de nuevo"));
-                return null; // se queda en login.xhtml
+                return null;
             }
-            this.usuario = auth; // exito
+            this.usuario = auth;
+
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .getSessionMap().put("usuario", auth);
+
             return "/index.xhtml?faces-redirect=true";
         } catch (Exception e) {
-            // cualquier excepcion NO debe romper el programa
-            this.usuario = new Usuario(); // reset limpio para reintentar
+            this.usuario = new Usuario();
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Ocurrio un problema al iniciar sesion", "Intente nuevamente"));
+                            "Ocurrió un problema al iniciar sesión", "Intente nuevamente"));
             return null;
         }
     }
+
 
     public String logout() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
