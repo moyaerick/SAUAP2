@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>SAUAP - Panel de Control</title>
+    <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+</h:head>
+
+<h:body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <p:graphicImage url="/webapp/resources/user.png" styleClass="logo-mini" />
+                <div>
+                    <strong>SAUAP</strong><br/>
+                    <small>Sistema Académico</small>
+                </div>
+            </div>
+
+            <div class="nav">
+                <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>         <span class="nav-text">Panel de Control</span></h:link>
+                <h:link outcome="/profesores_control/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>        <span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>         <span class="nav-text">Unidades de Aprendizaje</span></h:link>
+                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i>   <span class="nav-text">Asignaciones</span></h:link>
+                <h:link outcome="/horarios"     styleClass="nav-item"><i class="pi pi-calendar"></i>     <span class="nav-text">Horarios</span></h:link>
+            </div>
+
+
+            <div class="logout">
+                <h:form id="logoutForm">
+                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out" styleClass="ui-button-secondary ui-button-flat" action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
+                </h:form>
+            </div>
+        </aside>
+
+        <!-- Contenido -->
+        <section class="content">
+            <!-- Barra superior (sin usuario) -->
+            <div class="topbar">
+                <span>Sistema de Asignación de Unidades de Aprendizaje a Profesores</span>
+            </div>
+
+            <div class="main">
+                <div class="div1">
+                <div class="header-profesores">
+                    <div class="titulo">
+                        <h1>Gestión de Profesores</h1>
+                        <div class="subtitle">
+                            Administra el registro e información de profesores
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <br></br>
+                <br></br>
+                <div class="div2">
+                <div class="form-container">
+                    <h3><i class="pi pi-user-plus"></i> Información del Profesor</h3>
+                    <p>Completa todos los campos</p>
+                    <p:messages id="messages" autoUpdate="true" showDetail="true" showSummary="true" />
+                    <h:form id="formProfesor">
+                        <p:messages id="messages" showDetail="true" closable="true" />
+
+                        <div class="form-row">
+                            <div>
+                                <label for="nombre">Nombre</label>
+                                <p:inputText id="nombre" value="#{profesorBean.nombre}" placeholder="Ingrese el nombre"/>
+                            </div>
+                            <div>
+                                <label for="apellidoPaterno">Apellido Paterno</label>
+                                <p:inputText id="apellidoPaterno" value="#{profesorBean.apPrimero}" placeholder="Ingrese el apellido paterno"/>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div>
+                                <label for="apellidoMaterno">Apellido Materno</label>
+                                <p:inputText id="apellidoMaterno" value="#{profesorBean.apSegundo}" placeholder="Ingrese el apellido materno"/>
+                            </div>
+                            <div>
+                                <label for="rfc">RFC</label>
+                                <p:inputText id="rfc" value="#{profesorBean.rfc}" placeholder="Ingrese RFC"/>
+                            </div>
+                        </div>
+
+                        <div class="buttons">
+                            <p:commandButton value="Guardar" class="btn btn-guardar"
+                                             action="#{profesorBean.guardarProfesor}"
+                                             update="@form messages"
+                                             ajax="true"/>
+
+                            <p:commandButton value="Cancelar" class="btn btn-cancelar"
+                                             process="@this"
+                                             update="@form"
+                                             resetInput="true"
+                                             ajax="true"/>
+
+                        </div>
+                    </h:form>
+
+
+                </div>
+                    <a href="/vista/profesores_control/profesores.xhtml" class="btn-volver"><i class="pi pi-step-backward"></i>Volver</a>
+            </div>
+            </div>
+        </section>
+    </div>
+</h:body>
+
+<style>
+    .logo{
+        width: 170px; }
+    .celda{
+        width: 25%;
+        background-color: #089b4d;
+        color:white; }
+    .txt{
+        background: transparent;
+        box-shadow: none;
+        height: auto; width: auto; padding: 0; margin: 0;
+    }
+
+    html, body {
+        height:100%;
+        margin:0;
+        font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+    .app {
+        display:flex;
+        min-height:100vh; }
+    .sidebar {
+        width:220px;
+        background:#efefef;
+        display:flex;
+        flex-direction:column;
+        border-right:1px solid #ddd;
+        box-sizing: border-box;
+    }
+
+    .brand {
+        display:flex;
+        gap:10px; align-items:center;
+        padding:12px 14px;
+        background:#0f8a3b;
+        color:#fff; }
+    .logo-mini{
+        width:28px;
+        height:28px;
+        border-radius:50%;
+        background:#fff; }
+    .nav {
+        padding:12px;
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        box-sizing: border-box;}
+    .nav .nav-item{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin: 0;
+        width:100%;
+        padding:10px 12px;
+        background:#fff;
+        border:1px solid #e3e3e3;
+        border-radius:8px;
+        text-decoration:none;
+        color:#333;
+        box-sizing: border-box;
+    }
+    .nav .nav-item:hover{
+        box-shadow:0 2px 8px rgba(0,0,0,.06);
+    }
+    .nav .nav-item i{
+        font-size:1rem;
+        line-height:1;
+    }
+    .ui-g{
+        background-color: white;
+        border-color:transparent ;
+    }
+    .logout {
+        padding:12px;
+        border-top:1px solid #ddd; }
+    .content { flex:1;
+        display:flex;
+        flex-direction:column; }
+    .topbar {
+        background:#177d39;
+        color:#fff;
+        padding:10px 18px;
+        font-size:14px;
+        display:flex;
+        align-items:center; }
+    .titulo {
+        float: left;
+    }
+    .main {
+        padding:22px;
+        display: inline-block;}
+    h1 {
+        margin:0 0 6px 0;
+        font-size:30px; }
+    .subtitle {
+        color:#666;
+        margin-bottom:18px; }
+    .form-container {
+        width: 500px;
+        margin: 40px auto;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+    .form-container h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+    .form-container p {
+        margin: 5px 0 15px;
+        font-size: 13px;
+        color: #555;
+    }
+    .form-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+    .form-row label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+    .form-row input {
+        width: 200px;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 1px 1px 3px #aaa inset;
+    }
+    .buttons {
+        margin-top: 15px;
+    }
+    .btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+    .btn-guardar {
+        background-color: #007a33;
+        color: white;
+    }
+    .btn-cancelar {
+        background-color: #f3f3f3;
+        border: 1px solid #ccc;
+    }
+    .btn-volver {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 8px 15px;
+        background-color: #007a33;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+</style>
+</html>

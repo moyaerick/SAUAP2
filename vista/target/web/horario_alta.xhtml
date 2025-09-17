@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <style>
+        .logo{
+            width: 170px; }
+        .txt{
+            background: transparent;
+            box-shadow: none;
+            height: auto; width: auto; padding: 0; margin: 0;
+        }
+        div.panel-body{
+            height: 77%;
+            width: 38%;
+            padding: 25px;
+            margin: auto;
+            background: #dcdbdb;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .form-label{
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        html, body {
+            height:100%;
+            margin:0;
+            font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+        .app {
+            display:flex;
+            min-height:100vh; }
+        .sidebar {
+            width:220px;
+            background:#efefef;
+            display:flex;
+            flex-direction:column;
+            border-right:1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .brand {
+            display:flex;
+            gap:10px; align-items:center;
+            padding:12px 14px;
+            background:#0f8a3b;
+            color:#fff; }
+        .logo-mini{
+            width:28px;
+            height:28px;
+            border-radius:50%;
+            background:#fff; }
+        .nav {
+            padding:12px;
+            flex:1;
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            box-sizing: border-box;}
+        .nav .nav-item{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin: 0;
+            width:100%;
+            padding:10px 12px;
+            background:#fff;
+            border:1px solid #e3e3e3;
+            border-radius:8px;
+            text-decoration:none;
+            color:#333;
+            box-sizing: border-box;
+        }
+        .nav .nav-item:hover{
+            box-shadow:0 2px 8px rgba(0,0,0,.06);
+        }
+        .nav .nav-item i{
+            font-size:1rem;
+            line-height:1;
+        }
+        .ui-g{
+            background-color: white;
+            border-color:transparent ;
+        }
+        .logout {
+            padding:12px;
+            border-top:1px solid #ddd; }
+        .content { flex:1;
+            display:flex;
+            flex-direction:column; }
+        .topbar {
+            background:#177d39;
+            color:#fff;
+            padding:10px 18px;
+            font-size:14px;
+            display:flex;
+            align-items:center; }
+        .main {
+            padding:22px; }
+        h1 {
+            margin:0 0 6px 0;
+            font-size:30px; }
+        .subtitle {
+            color:#666;
+            margin-bottom:18px; }
+        .cards {
+            width:100%;
+            max-width:980px; }
+        .cards .ui-panel {
+            background:#f4f4f4;
+            border-radius:12px;
+            border:1px solid #e3e3e3;
+            box-shadow:0 3px 10px rgba(0,0,0,.06);
+            padding:16px; }
+        .card-title {
+            color:#555;
+            font-weight:700;
+            margin-bottom:10px;
+            display:block; }
+        .card-number {
+            font-size:26px;
+            font-weight:800;
+            color:#222;
+            margin-bottom:4px;
+            display:block; }
+        .card-sub {
+            color:#666;
+            font-size:13px;
+            display:block; }
+    </style>
+
+    <title>SAUAP - Alta de Horario</title>
+    <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+</h:head>
+
+<h:body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <p:graphicImage url="resources/user.png" styleClass="logo-mini" />
+                <div>
+                    <strong>SAUAP</strong><br/>
+                    <small>Sistema Académico</small>
+                </div>
+            </div>
+
+            <div class="nav">
+                <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>         <span class="nav-text">Panel de Control</span></h:link>
+                <h:link outcome="/profesores_control/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>        <span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>         <span class="nav-text">Unidades de Aprendizaje</span></h:link>
+                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i>   <span class="nav-text">Asignaciones</span></h:link>
+                <h:link outcome="/horarios"     styleClass="nav-item"><i class="pi pi-calendar"></i>     <span class="nav-text">Horarios</span></h:link>
+            </div>
+
+            <div class="logout">
+                <h:form id="logoutForm">
+                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out"
+                                     styleClass="ui-button-secondary ui-button-flat"
+                                     action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
+                </h:form>
+            </div>
+        </aside>
+
+        <!-- Contenido -->
+        <section class="content">
+            <div class="topbar">
+                <span>Sistema de Asignación de Unidades de Aprendizaje a Profesores</span>
+            </div>
+
+            <div class="main">
+                <h1>Nuevo Horario</h1>
+                <div class="subtitle">
+                    Registra un nuevo horario en el sistema
+                </div>
+                <p:messages id="msgs" showDetail="true" closable="true"/>
+                <!-- Formulario -->
+                <h:form id="formAltaHorario">
+                    <div class="panel-body">
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" style="font-size:20px;" value="Información del Horario"/>
+                            <p:outputLabel class="form-label" style="font-weight:normal;" value="Completa todos los campos"/>
+                        </div>
+
+                        <!-- Selección de Asignación -->
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" value="Asignación"/>
+                            <p:selectOneMenu style="width:70%;" value="#{horarioControl.asignacionSeleccionada}">
+                                <f:selectItem itemLabel="-- Seleccione una Asignación --" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{horarioControl.listaAsignaciones}" var="asig"
+                                               itemLabel="#{asig.unidadAprendizaje.nombre} - #{asig.idProfesor.nombre}"
+                                               itemValue="#{asig.id}"/>
+                            </p:selectOneMenu>
+
+                        </div>
+
+                        <!-- Día -->
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <p:outputLabel class="form-label" value="Día"/>
+                            <p:selectOneMenu value="#{horarioControl.diaSeleccionado}">
+                                <f:selectItems value="#{horarioControl.listaDias}" var="d"
+                                               itemLabel="#{d.name()}" itemValue="#{d}" />
+                            </p:selectOneMenu>
+
+                        </div>
+
+                        <!-- Hora Inicio -->
+                        <p:outputLabel class="form-label" value="Hora Inicio"/>
+                        <p:selectOneMenu style="width:70%;" value="#{horarioControl.hrInSeleccionada}">
+                            <f:selectItem itemLabel="-- Seleccione hora --" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{horarioControl.listaHoras}" var="h" itemLabel="#{h}:00" itemValue="#{h}"/>
+                        </p:selectOneMenu>
+
+                        <!-- Hora Fin -->
+                        <p:outputLabel class="form-label" value="Hora Fin"/>
+                        <p:selectOneMenu style="width:70%;" value="#{horarioControl.hrFinSeleccionada}">
+                            <f:selectItem itemLabel="-- Seleccione hora --" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{horarioControl.listaHoras}" var="h" itemLabel="#{h}:00" itemValue="#{h}"/>
+                        </p:selectOneMenu>
+
+                        <!-- Botones -->
+                        <div style="text-align: center; padding-top: 10px;">
+                            <p:commandButton value="Guardar"
+                                             styleClass="btn btn-success"
+                                             style="width: 35%; margin-right:10px;"
+                                             action="#{horarioControl.guardarHorarioAlta}"
+                                             ajax="false"/>
+
+                            <p:button value="Cancelar"
+                                      outcome="/horarios"
+                                      styleClass="ui-button-success btn-new"/>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+        </section>
+    </div>
+</h:body>
+</html>
