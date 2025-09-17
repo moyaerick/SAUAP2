@@ -13,6 +13,7 @@
         <class>mx.sauap.entity.Asignacion</class>
         <class>mx.sauap.entity.Profesor</class>
 
+
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/sauap?useSSL=false&amp;serverTimezone=UTC"/>

@@ -6,6 +6,8 @@ import mx.sauap.entity.UnidadAprendizaje;
 
 import java.util.List;
 
+import static mx.sauap.persistence.HibernateUtil.getEntityManager;
+
 public class UnidadAprendizajeDAO {
 
     private final EntityManager entityManager;
@@ -40,6 +42,11 @@ public class UnidadAprendizajeDAO {
         entityManager.remove(managed);
         entityManager.getTransaction().commit();
     }
+
+    public UnidadAprendizaje obtenerPorId(Integer id) {
+        return getEntityManager().find(UnidadAprendizaje.class, id);
+    }
+
 }
 
 

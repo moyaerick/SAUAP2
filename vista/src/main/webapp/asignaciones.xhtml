@@ -50,13 +50,13 @@
                     Administra el registro e informacion de las Asignaciones
                 </div>
 
-                <h:form id="formUnidades">
+                <h:form id="formAsignaciones">
                     <p:messages id="msgs" showDetail="false" closable="true"/>
                     <div class="toolbar">
                         <p:commandButton value="Nueva Asig"
                                          icon="pi pi-plus"
                                          styleClass="ui-button-success btn-new"
-                                         action="#{unidadControl.ua_alta}"
+                                         action="#{unidadAsignacion.asignacion_alta}"
                                          ajax = "false"
                         />
                     </div>
@@ -67,57 +67,28 @@
                             <span> Catalogo de Asignaciones</span>
                         </f:facet>
 
-                        <div class="searchbar">
-                            <i class="pi pi-search"></i>
-                            <p:inputText id="filtroNombre"
-                                         value="#{unidadControl.filtro}"
-                                         placeholder="Buscar por nombre"
-                                         styleClass="search-input">
-                                <p:ajax event="keyup"
-                                        update="tablaUnidades"
-                                        listener="#{unidadControl.aplicarFiltro}"/>
-                            </p:inputText>
-                        </div>
-
-                        <p:dataTable id="tablaUnidades"
-                                     value="#{unidadControl.listaFiltrada}"
-                                     var="ua"
+                        <p:dataTable id="tablaAsignaciones"
+                                     value="#{unidadAsignacion.listaAsignaciones}"
+                                     var="a"
                                      responsiveLayout="scroll"
-                                     emptyMessage="No hay unidades registradas"
+                                     emptyMessage="Sin asignaciones registradas"
                                      rowHover="true"
-                                     styleClass="ua-table"
-                                     paginator="false">
+                                     paginator="false"
+                                     styleClass="ua-table">
 
-                            <p:column headerText="ID">
-                                <h:outputText value="#{ua.id}" />
+                            <p:column headerText="Profesor">
+                                <h:outputText
+                                        value="#{a.idProfesor.nombre} #{a.idProfesor.apPrimero} #{a.idProfesor.apSegundo}" />
                             </p:column>
 
-                            <p:column headerText="Nombre">
-                                <h:outputText value="#{ua.nombre}" />
+                            <p:column headerText="Unidad de Aprendizaje">
+                                <h:outputText value="#{a.idUa.nombre}" />
                             </p:column>
 
-                            <p:column headerText="Horas Clase">
-                                <h:outputText value="#{ua.hrsClase}" />
+                            <p:column headerText="Tipo">
+                                <h:outputText value="#{a.tipoAsignacion}" />
                             </p:column>
-
-                            <p:column headerText="Horas Taller">
-                                <h:outputText value="#{ua.hrsTaller}" />
-                            </p:column>
-
-                            <p:column headerText="Horas Lab">
-                                <h:outputText value="#{ua.hrsLab}" />
-                            </p:column>
-
-                            <p:column headerText="Total">
-                                <h:outputText value="#{ua.totalHoras}" />
-                            </p:column>
-
-
                         </p:dataTable>
-
-
-
-
                     </p:panel>
                 </h:form>
             </div>
