@@ -2,44 +2,44 @@ package mx.sauap.facade;
 
 import java.util.List;
 
-import mx.sauap.delegate.UnidadAprendizajeDelegate;
-import mx.sauap.dao.ProfesorDAO;
 import mx.sauap.dao.HorarioDAO;
-import mx.sauap.dao.AsignacionDAO;
+import mx.sauap.dao.ProfesorDAO;
+import mx.sauap.delegate.AsignacionDelegate;
+import mx.sauap.delegate.UnidadAprendizajeDelegate;
+import mx.sauap.entity.Asignacion;
+import mx.sauap.entity.Horario;
 import mx.sauap.entity.Profesor;
 import mx.sauap.entity.UnidadAprendizaje;
-import mx.sauap.entity.Horario;
-import mx.sauap.entity.Asignacion;
-import mx.sauap.gestores.GestorHorario;
 import mx.sauap.gestores.GestorProfesor;
-import mx.sauap.gestores.GestorAsignacion;
 import mx.sauap.integration.ServiceLocator;
 
 public class SistemaAcademicoFacade {
-    private GestorProfesor gestorProfesor;
-    private UnidadAprendizajeDelegate delegate;
-    private GestorHorario gestorHorario;
-    private GestorAsignacion gestorAsignacion;
 
-    // Constructor usado cuando ya te pasan un GestorProfesor
-    public SistemaAcademicoFacade(GestorProfesor gestorProfesor) {
-        this.gestorProfesor = gestorProfesor;
-        this.delegate = new UnidadAprendizajeDelegate();
-        this.gestorHorario = new GestorHorario(new HorarioDAO(ServiceLocator.getEntityManager()));
-        this.gestorAsignacion = new GestorAsignacion(new AsignacionDAO(ServiceLocator.getEntityManager()));
-    }
+    private GestorProfesor gestorProfesor;
+    private UnidadAprendizajeDelegate unidadDelegate;
+    private AsignacionDelegate asignacionDelegate;
+    private HorarioDAO horarioDAO;
 
     public SistemaAcademicoFacade() {
         ProfesorDAO profesorDAO = new ProfesorDAO(ServiceLocator.getEntityManager());
-        this.gestorProfesor = new GestorProfesor(profesorDAO);
-        this.delegate = new UnidadAprendizajeDelegate();
-        this.gestorHorario = new GestorHorario(new HorarioDAO(ServiceLocator.getEntityManager()));
-        this.gestorAsignacion = new GestorAsignacion(new AsignacionDAO(ServiceLocator.getEntityManager()));
+        this.gestorProfesor     = new GestorProfesor(profesorDAO);
+        this.unidadDelegate     = new UnidadAprendizajeDelegate();
+        this.asignacionDelegate = new AsignacionDelegate();
+        this.horarioDAO         = new HorarioDAO(ServiceLocator.getEntityManager());
+    }
+
+    public SistemaAcademicoFacade(GestorProfesor gestorProfesor) {
+        this();
+        this.gestorProfesor = gestorProfesor != null ? gestorProfesor : this.gestorProfesor;
     }
 
     // ===== Profesores =====
     public List<Profesor> obtenerProfesores() {
         return gestorProfesor.listarProfesores();
+    }
+
+    public Profesor buscarProfesorPorId(Integer id) {
+        return gestorProfesor.buscarPorId(id);
     }
 
     public void insertarProfesor(Profesor profesor) {
@@ -48,50 +48,65 @@ public class SistemaAcademicoFacade {
 
     // ===== Unidades de Aprendizaje =====
     public List<UnidadAprendizaje> consultarUA() {
-        return delegate.consultarUA();
+        return unidadDelegate.consultarUA();
+    }
+
+    public UnidadAprendizaje buscarUnidadPorId(Integer id) {
+        return unidadDelegate.buscarUAPorId(id);
     }
 
     public void guardarUA(UnidadAprendizaje ua) {
-        delegate.insertarUA(ua);
+        unidadDelegate.insertarUA(ua);
     }
 
     public void actualizarUA(UnidadAprendizaje ua) {
-        delegate.actualizarUA(ua);
+        unidadDelegate.actualizarUA(ua);
     }
 
     public void eliminarUA(UnidadAprendizaje ua) {
-        delegate.eliminarUA(ua);
+        unidadDelegate.eliminarUA(ua);
+    }
+
+    // ===== Asignaciones =====
+    // Alias corto usado en AsignacionBeanUI
+    public List<Asignacion> consultarA() {
+        return asignacionDelegate.consultarA();
+    }
+
+    // Nombre largo usado en HorarioBeanUI
+    public List<Asignacion> consultarAsignaciones() {
+        return asignacionDelegate.consultarA();
+    }
+
+    public void guardarA(Asignacion a) {
+        asignacionDelegate.insertarA(a);
+    }
+
+    public Asignacion consultarAsignacionPorId(Integer id) {
+        return asignacionDelegate.obtenerPorId(id);
     }
 
     // ===== Horarios =====
     public List<Horario> consultarHorarios() {
-        return gestorHorario.consultarHorarios();
+        return horarioDAO.obtenerTodos();
     }
 
     public long getHorasAsignadas(Integer idAsignacion) {
-        return gestorHorario.getHorasAsignadas(idAsignacion);
+        return horarioDAO.getHorasAsignadas(idAsignacion);
     }
 
-    public Asignacion consultarAsignacionPorId(Integer id){
-        return gestorAsignacion.consultarAsignacionPorId(id);
+    public boolean guardarHorario(Horario h) {
+        if (h == null || h.getIdAsignacion() == null) return false;
+        Integer idAsig = h.getIdAsignacion().getId();
+        boolean traslapa = horarioDAO.existeTraslape(idAsig, h.getDia(), h.getHrIn(), h.getHrFin());
+        if (traslapa) return false;
+        horarioDAO.guardar(h);
+        return true;
     }
 
-
-    public boolean guardarHorario(Horario horario) {
-        return gestorHorario.insertarHorario(horario);
-    }
-
-
-    public void actualizarHorario(Horario horario) {
-        gestorHorario.actualizarHorario(horario);
-    }
-
-    public void eliminarHorario(Horario horario) {
-        gestorHorario.eliminarHorario(horario);
-    }
-
-    // ===== Asignaciones =====
-    public List<Asignacion> consultarAsignaciones() {
-        return gestorAsignacion.consultarAsignaciones();
+    public void eliminarHorario(Horario h) {
+        horarioDAO.eliminar(h);
     }
 }
+
+

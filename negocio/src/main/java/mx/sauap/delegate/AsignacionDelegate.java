@@ -21,4 +21,8 @@ public class AsignacionDelegate {
     public void insertarA(Asignacion a) {
         dao.guardar(a);
     }
+    public Asignacion obtenerPorId(Integer id) {
+        return dao.obtenerPorId(id);
+    }
+
 }

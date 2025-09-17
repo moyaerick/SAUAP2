@@ -1,8 +1,10 @@
 mx\sauap\facade\FacadeUsuario.class
+mx\sauap\gestores\GestorHorario.class
 mx\sauap\delegate\ProfesorDelegate.class
 mx\sauap\delegate\AsignacionDelegate.class
 mx\sauap\facade\SistemaAcademicoFacade.class
 mx\sauap\delegate\UnidadAprendizajeDelegate.class
+mx\sauap\gestores\GestorAsignacion.class
 mx\sauap\gestores\GestorProfesor.class
 mx\sauap\integration\ServiceFacadeLocator.class
 mx\sauap\Main.class

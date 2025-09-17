@@ -27,6 +27,7 @@
                 <h:link outcome="/profesores_control/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>      <span class="nav-text">Profesores</span></h:link>
                 <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>       <span class="nav-text">Unidades de Aprendizaje</span></h:link>
                 <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i> <span class="nav-text">Asignaciones</span></h:link>
+                <h:link outcome="/horarios"     styleClass="nav-item"><i class="pi pi-calendar"></i>     <span class="nav-text">Horarios</span></h:link>
             </div>
 
             <div class="logout">
@@ -115,8 +116,9 @@
                             <p:column headerText="Acciones">
                                 <p:commandButton icon="pi pi-pencil"
                                                  title="Editar"
-                                                 action="#{unidadControl.editarUnidad(ua)}"
-                                                 update=":formUnidades:tablaUnidades"
+                                                 actionListener="#{unidadControl.prepararEdicion(ua)}"
+                                                 update=":formEditarUA"
+                                                 oncomplete="PF('dlgEditarUA').show()"
                                                  styleClass="ui-button-secondary ui-button-text ui-button-rounded action-btn" />
 
                                 <p:commandButton icon="pi pi-trash"
@@ -128,6 +130,7 @@
                                                  oncomplete="PF('confirmDialogWidget').show()" />
                             </p:column>
                         </p:dataTable>
+
 
                         <p:confirmDialog id="confirmDialog"
                                          header="Eliminar Unidad de Aprendizaje"
@@ -150,11 +153,44 @@
                                              update=":formUnidades:tablaUnidades"
                                              oncomplete="PF('confirmDialogWidget').hide()"
                                              styleClass="ui-button-danger" />
+
+
                         </p:confirmDialog>
+
+
 
 
                     </p:panel>
                 </h:form>
+
+                <p:dialog id="dlgEditarUA" header="Editar Unidad de Aprendizaje"
+                          widgetVar="dlgEditarUA" modal="true" resizable="false" appendTo="@(body)">
+                <h:form id="formEditarUA">
+                <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputLabel value="Nombre:" />
+                    <p:inputText value="#{unidadControl.unidadAEditar.nombre}" />
+
+                    <h:outputLabel value="Horas Clase:" />
+                    <p:spinner value="#{unidadControl.unidadAEditar.hrsClase}" min="0" max="4" />
+
+                    <h:outputLabel value="Horas Taller:" />
+                    <p:spinner value="#{unidadControl.unidadAEditar.hrsTaller}" min="0" max="4" />
+
+                    <h:outputLabel value="Horas Lab:" />
+                    <p:spinner value="#{unidadControl.unidadAEditar.hrsLab}" min="0" max="4" />
+                </h:panelGrid>
+
+                <p:commandButton value="Guardar"
+                                 actionListener="#{unidadControl.guardarEdicion}"
+                                 update=":formUnidades:tablaUnidades"
+                                 oncomplete="PF('dlgEditarUA').hide()"
+                                 styleClass="ui-button-success" />
+
+                <p:commandButton value="Cancelar"
+                                 onclick="PF('dlgEditarUA').hide(); return false;"
+                                 styleClass="ui-button-secondary ui-button-outlined" />
+                </h:form>
+                </p:dialog>
             </div>
         </section>
     </div>
