@@ -19,6 +19,7 @@ public class HibernateUtil {
             return Persistence.createEntityManagerFactory("persistencePU");
         } catch (Throwable ex) {
             System.err.println("Error creando EntityManagerFactory: " + ex);
+            ex.printStackTrace();
             throw new ExceptionInInitializerError(ex);
         }
     }

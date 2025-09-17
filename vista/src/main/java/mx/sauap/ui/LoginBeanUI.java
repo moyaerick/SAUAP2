@@ -9,6 +9,7 @@ package mx.sauap.ui;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import mx.sauap.entity.Usuario;
@@ -22,11 +23,11 @@ import java.io.Serializable;
 public class LoginBeanUI implements Serializable {
     private LoginHelper loginHelper;
     private Usuario usuario;
-    
+
     public LoginBeanUI() {
         loginHelper = new LoginHelper();
     }
-    
+
     /**
      * Metodo postconstructor todo lo que este dentro de este metodo
      * sera la primero que haga cuando cargue la pagina
@@ -36,23 +37,36 @@ public class LoginBeanUI implements Serializable {
         usuario= new Usuario();
     }
 
-     public void login() throws IOException {
-        String appURL = "/index.xhtml";
-        // los atributos de usuario vienen del xhtml 
-        Usuario us= new Usuario();
-        us.setId(0);
-        us = loginHelper.Login(usuario.getCorreo(), usuario.getContrasena());
-          if(us != null && us.getId()!=null){
-            // asigno el usuario encontrado al usuario de esta clase para que 
-            // se muestre correctamente en la pagina de informacion
-            usuario=us;
-            FacesContext.getCurrentInstance().getExternalContext().redirect(FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + appURL);
-        }else{
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Usuario o contraseña incorrecta:", "Intente de nuevo"));
+    public String login() {
+        try {
+            Usuario auth = loginHelper.Login(usuario.getNombre(), usuario.getPsswd());
+            if (auth == null) {
+                // intento fallido: no navegar, permitir reintento
+                if (usuario != null) usuario.setPsswd(""); // opcional, limpiar pass
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Usuario o contraseña incorrecta", "Intente de nuevo"));
+                return null; // se queda en login.xhtml
+            }
+            this.usuario = auth; // exito
+            return "/index.xhtml?faces-redirect=true";
+        } catch (Exception e) {
+            // cualquier excepcion NO debe romper el programa
+            this.usuario = new Usuario(); // reset limpio para reintentar
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Ocurrio un problema al iniciar sesion", "Intente nuevamente"));
+            return null;
         }
     }
 
-    
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext();
+        usuario = null;
+        // navegar al login con redirect (evita volver con el boton atras)
+        return "/login.xhtml?faces-redirect=true";
+    }
+
     /* getters y setters*/
 
     public Usuario getUsuario() {
@@ -62,16 +76,4 @@ public class LoginBeanUI implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-
-    
 }

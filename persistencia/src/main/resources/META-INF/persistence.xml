@@ -8,20 +8,23 @@
 
 
         <!-- Declaración manual de entidades -->
-        <class>mx.sauap.entity.Alumno</class>
         <class>mx.sauap.entity.Usuario</class>
+        <class>mx.sauap.entity.UnidadAprendizaje</class>
+        <class>mx.sauap.entity.Asignacion</class>
+        <class>mx.sauap.entity.Profesor</class>
 
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/desarrollo?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3307/sauap?useSSL=false&amp;serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="Cdomx*1523"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
 
 
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
 
 
             <property name="hibernate.hikari.minimumIdle" value="5"/>

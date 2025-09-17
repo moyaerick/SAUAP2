@@ -5,25 +5,20 @@
  */
 package mx.sauap.helper;
 
-
 import mx.sauap.entity.Usuario;
 import mx.sauap.integration.ServiceFacadeLocator;
-
 import java.io.Serializable;
 
 public class LoginHelper implements Serializable {
-    
+
 
     /**
      * Metodo para hacer login llamara a la instancia de usuarioFacade
-     * @param correo
-     * @param password
-     * @return 
+     * @param nombre
+     * @param psswd
+     * @return
      */
-    public Usuario Login(String correo, String password){
-        return ServiceFacadeLocator.getInstanceFacadeUsuario().login(password, correo);
+    public Usuario Login(String nombre, String psswd){
+        return ServiceFacadeLocator.getInstanceFacadeUsuario().login(psswd, nombre);
     }
-    
-    
-    
 }

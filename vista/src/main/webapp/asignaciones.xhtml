@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gestion de Asignaciones</title>
+    <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
+</h:head>
+
+<h:body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <p:graphicImage url="resources/user.png" styleClass="logo-mini" />
+                <div>
+                    <strong>SAUAP</strong><br/>
+                    <small>Sistema Academico</small>
+                </div>
+            </div>
+
+            <div class="nav">
+                <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>       <span class="nav-text">Panel de Control</span></h:link>
+                <h:link outcome="/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>      <span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>       <span class="nav-text">Unidades de Aprendizaje</span></h:link>
+                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i> <span class="nav-text">Asignaciones</span></h:link>
+            </div>
+
+            <div class="logout">
+                <h:form id="logoutForm">
+                    <p:commandButton value="Cerrar Sesion" icon="pi pi-sign-out"
+                                     styleClass="ui-button-secondary ui-button-flat"
+                                     action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
+                </h:form>
+            </div>
+        </aside>
+
+        <!-- Contenido -->
+        <section class="content">
+            <div class="topbar">
+                <span>Sistema de Asignacion de Unidades de Aprendizaje a Profesores</span>
+            </div>
+
+            <div class="main">
+                <h1>Gestion de Asignaciones</h1>
+                <div class="subtitle">
+                    Administra el registro e informacion de las Asignaciones
+                </div>
+
+                <h:form id="formAsignaciones">
+                    <p:messages id="msgs" showDetail="false" closable="true"/>
+                    <div class="toolbar">
+                        <p:commandButton value="Nueva Asig"
+                                         icon="pi pi-plus"
+                                         styleClass="ui-button-success btn-new"
+                                         action="#{unidadAsignacion.asignacion_alta}"
+                                         ajax = "false"
+                        />
+                    </div>
+
+                    <p:panel styleClass="catalogo-panel">
+                        <f:facet name="header">
+                            <i class="pi pi-th-large"></i>
+                            <span> Catalogo de Asignaciones</span>
+                        </f:facet>
+
+                        <p:dataTable id="tablaAsignaciones"
+                                     value="#{unidadAsignacion.listaAsignaciones}"
+                                     var="asignacion"
+                                     responsiveLayout="scroll"
+                                     emptyMessage="No hay asignaciones registradas"
+                                     rowHover="true"
+                                     styleClass="ua-table"
+                                     paginator="false">
+
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{asignacion.id}"/>
+                            </p:column>
+
+                            <p:column headerText="Unidad de Aprendizaje">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Dia">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Hora Inicio">
+                                <h:outputText/>
+                            </p:column>
+
+                            <p:column headerText="Hora Fin">
+                                <h:outputText/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+            </div>
+        </section>
+    </div>
+</h:body>
+
+<style>
+    .logo{
+        width: 170px;
+    }
+    .celda{
+        width: 25%;
+        background-color: #089b4d;
+        color: white;
+    }
+    .txt{
+        background: transparent;
+        box-shadow: none;
+        height: auto;
+        width: auto;
+        padding: 0;
+        margin: 0;
+    }
+    html, body{
+        height: 100%;
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    .app{
+        display: flex;
+        min-height: 100vh;
+    }
+    .sidebar{
+        width: 220px;
+        background: #efefef;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #ddd;
+        box-sizing: border-box;
+    }
+    .brand{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        padding: 12px 14px;
+        background: #0f8a3b;
+        color: #fff;
+    }
+    .logo-mini{
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #fff;
+    }
+    .nav{
+        padding: 12px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-sizing: border-box;
+    }
+    .nav .nav-item{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        width: 100%;
+        padding: 10px 12px;
+        background: #fff;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        box-sizing: border-box;
+    }
+    .nav .nav-item:hover{
+        box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .nav .nav-item i{
+        font-size: 1rem;
+        line-height: 1;
+    }
+    .logout{
+        padding: 12px;
+        border-top: 1px solid #ddd;
+    }
+    .content{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .topbar{
+        background: #177d39;
+        color: #fff;
+        padding: 10px 18px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+    .main{
+        padding: 22px;
+    }
+    h1{
+        margin: 0 0 6px 0;
+        font-size: 30px;
+    }
+    .subtitle{
+        color: #666;
+        margin-bottom: 18px;
+    }
+    .toolbar{
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+    }
+    .btn-new-ua{
+        background: #198754;
+        border: 0;
+        color: #fff;
+        border-radius: 999px;
+        padding: .55rem .95rem .55rem .75rem; /* un poco mas a la derecha que a la izquierda */
+        font-weight: 700;
+        box-shadow: 0 2px 0 rgba(0,0,0,.10);
+    }
+    .btn-new-ua:hover{
+        filter: brightness(0.95);
+    }
+
+    .btn-new-ua .ui-button-icon-left{
+        position: static;               /* importante para que no se coloque absoluto */
+        margin: 0 .45rem 0 0;           /* separacion del texto */
+        width: 1.35rem;
+        height: 1.35rem;
+        line-height: 1.35rem;
+        border-radius: 50%;
+        background: #fff;
+        color: #198754;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .9rem;               /* tamano del icono */
+    }
+
+    /* elimina padding interno extra del texto */
+    .btn-new-ua .ui-button-text{
+        padding: 0;
+    }
+    .catalogo-panel{
+        border: 1px solid #e3e3e3;
+        border-radius: 12px;
+        padding: 14px;
+        background: #f7f7f7;
+    }
+    .catalogo-panel .ui-panel-titlebar{
+        border: none;
+        background: transparent;
+        padding: 0 0 8px 0;
+        font-weight: 700;
+        font-size: 16px;
+        color: #333;
+    }
+    .catalogo-panel .ui-panel-titlebar i{
+        margin-right: 8px;
+    }
+    .searchbar{
+        position: relative;
+        margin: 6px 0 10px 0;
+    }
+    .searchbar i{
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 1rem;
+        color: #777;
+    }
+    .search-input{
+        width: 320px;
+        padding-left: 32px;
+    }
+    .ua-table{
+        border: 1px solid #e3e3e3;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+    }
+    .ua-table .ui-datatable-header,
+    .ua-table .ui-datatable-footer{
+        display: none;
+    }
+    .ua-table th{
+        background: #efefef;
+        color: #333;
+        font-weight: 700;
+        border-bottom: 1px solid #e3e3e3;
+    }
+    .ua-table td{
+        border-bottom: 1px solid #eee;
+    }
+    .ua-table .ui-datatable-data tr:hover{
+        background: #777;
+    }
+    .action-btn{
+        width: 2.1rem;
+        height: 2.1rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: .25rem;
+    }
+    /* oscurece el fondo cuando aparece el dialogo */
+    .ui-widget-overlay{
+        background: rgba(0,0,0,.25);
+    }
+
+    /* look suave del aviso de eliminacion */
+    .dlg-soft.ui-dialog{
+        border: 0;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.20);
+    }
+
+    .dlg-soft .ui-dialog-titlebar{
+        background: #fff;
+        border: 0;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
+        color: #222;
+        padding: 12px 16px;
+    }
+
+    .dlg-soft .ui-dialog-content{
+        background: #fff;
+        color: #333;
+        padding: 16px;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* botones del dialogo */
+    .dlg-soft .ui-dialog-content .ui-button{
+        min-width: 110px;
+    }
+
+    .dlg-soft .ui-dialog-content .ui-button + .ui-button{
+        margin-left: 8px;
+    }
+
+    .dlg-soft .ui-button-danger{
+        background: #dc3545;
+        border: 0;
+    }
+
+</style>
+</html>

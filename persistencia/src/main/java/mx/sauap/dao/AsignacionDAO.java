@@ -20,6 +20,12 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
                 .getResultList();
     }
 
+    public void guardar(Asignacion a) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(a);
+        entityManager.getTransaction().commit();
+    }
+
     @Override
     public EntityManager getEntityManager() {
         return entityManager;
