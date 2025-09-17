@@ -1,5 +1,7 @@
-mx\sauap\ui\LoginBeanUI.class
+mx\sauap\ui\AsignacionBeanUI.class
+mx\sauap\ui\HorarioBeanUI.class
 mx\sauap\ui\ProfesorUI$1.class
 mx\sauap\helper\LoginHelper.class
 mx\sauap\ui\ProfesorUI.class
+mx\sauap\ui\LoginBeanUI.class
 mx\sauap\ui\UnidadBeanUI.class

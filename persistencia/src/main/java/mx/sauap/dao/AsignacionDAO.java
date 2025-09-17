@@ -19,9 +19,14 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
                 .createQuery("SELECT a FROM Asignacion a", Asignacion.class)
                 .getResultList();
     }
+    public void guardar(Asignacion a) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(a);
+        entityManager.getTransaction().commit();
+    }
 
     public Asignacion obtenerPorId(Integer id) {
-        return entityManager.find(Asignacion.class, id); // 'em' es tu EntityManager
+        return entityManager.find(Asignacion.class, id);
     }
 
     @Override

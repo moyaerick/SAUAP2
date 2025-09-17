@@ -40,6 +40,11 @@ public class ProfesorDAO extends AbstractDAO<Profesor> {
             }
             throw e;
         }
+
+
+    }
+    public Profesor obtenerPorId(Integer id) {
+        return entityManager.find(Profesor.class, id);
     }
 
 
