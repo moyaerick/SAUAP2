@@ -25,6 +25,10 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
         entityManager.getTransaction().commit();
     }
 
+    public Asignacion obtenerPorId(Integer id) {
+        return entityManager.find(Asignacion.class, id); // 'em' es tu EntityManager
+    }
+
     @Override
     public EntityManager getEntityManager() {
         return entityManager;

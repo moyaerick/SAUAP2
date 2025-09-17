@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-    <title>Gestion de Unidades de Aprendizaje</title>
+    <title>Gestión de Horarios</title>
     <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
 </h:head>
 
@@ -18,21 +18,21 @@
                 <p:graphicImage url="resources/user.png" styleClass="logo-mini" />
                 <div>
                     <strong>SAUAP</strong><br/>
-                    <small>Sistema Academico</small>
+                    <small>Sistema Académico</small>
                 </div>
             </div>
 
             <div class="nav">
-                <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>       <span class="nav-text">Panel de Control</span></h:link>
-                <h:link outcome="/profesores_control/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>      <span class="nav-text">Profesores</span></h:link>
-                <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>       <span class="nav-text">Unidades de Aprendizaje</span></h:link>
-                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i> <span class="nav-text">Asignaciones</span></h:link>
-                <h:link outcome="/horarios"     styleClass="nav-item"><i class="pi pi-calendar"></i>     <span class="nav-text">Horarios</span></h:link>
+                <h:link outcome="/index" styleClass="nav-item"><i class="pi pi-home"></i><span class="nav-text">Panel de Control</span></h:link>
+                <h:link outcome="/profesores_control/profesores" styleClass="nav-item"><i class="pi pi-users"></i><span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/unidades" styleClass="nav-item"><i class="pi pi-book"></i><span class="nav-text">Unidades de Aprendizaje</span></h:link>
+                <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i><span class="nav-text">Asignaciones</span></h:link>
+                <h:link outcome="/horarios" styleClass="nav-item"><i class="pi pi-calendar"></i><span class="nav-text">Horarios</span></h:link>
             </div>
 
             <div class="logout">
                 <h:form id="logoutForm">
-                    <p:commandButton value="Cerrar Sesion" icon="pi pi-sign-out"
+                    <p:commandButton value="Cerrar Sesión" icon="pi pi-sign-out"
                                      styleClass="ui-button-secondary ui-button-flat"
                                      action="#{loginUI.logout}" ajax="false" process="@this" update="@none"/>
                 </h:form>
@@ -42,99 +42,80 @@
         <!-- Contenido -->
         <section class="content">
             <div class="topbar">
-                <span>Sistema de Asignacion de Unidades de Aprendizaje a Profesores</span>
+                <span>Sistema de Asignación de Unidades de Aprendizaje a Profesores</span>
             </div>
 
             <div class="main">
-                <h1>Gestion de Unidades de Aprendizaje</h1>
+                <h1>Gestión de Horarios</h1>
                 <div class="subtitle">
-                    Administra el registro e informacion de las Unidades de Aprendizaje
+                    Administra el registro, modificación y creación de nuevos horarios
                 </div>
 
-                <h:form id="formUnidades">
+                <h:form id="formHorarios">
                     <p:messages id="msgs" showDetail="false" closable="true"/>
                     <div class="toolbar">
-                        <p:commandButton value="Nueva UA"
-                                         icon="pi pi-plus"
-                                         styleClass="ui-button-success btn-new"
-                                         action="#{unidadControl.ua_alta}"
-                                         ajax = "false"
-                        />
+                        <p:button value="Nuevo Horario"
+                                  icon="pi pi-plus"
+                                  outcome="/horario_alta"
+                                  styleClass="ui-button-success btn-new"/>
                     </div>
 
                     <p:panel styleClass="catalogo-panel">
                         <f:facet name="header">
-                            <i class="pi pi-th-large"></i>
-                            <span> Catalogo de Unidades de Aprendizaje</span>
+                            <i class="pi pi-calendar"></i>
+                            <span> Horario Semanal</span>
                         </f:facet>
 
-                        <div class="searchbar">
-                            <i class="pi pi-search"></i>
-                            <p:inputText id="filtroNombre"
-                                         value="#{unidadControl.filtro}"
-                                         placeholder="Buscar por nombre"
-                                         styleClass="search-input">
-                                <p:ajax event="keyup"
-                                        update="tablaUnidades"
-                                        listener="#{unidadControl.aplicarFiltro}"/>
-                            </p:inputText>
-                        </div>
-
-                        <p:dataTable id="tablaUnidades"
-                                     value="#{unidadControl.listaFiltrada}"
-                                     var="ua"
+                        <p:dataTable id="tablaHorarios"
+                                     value="#{horarioControl.listaHorarios}"
+                                     var="hor"
                                      responsiveLayout="scroll"
-                                     emptyMessage="No hay unidades registradas"
+                                     emptyMessage="No hay horarios registrados"
                                      rowHover="true"
                                      styleClass="ua-table"
                                      paginator="false">
-
-                            <p:column headerText="ID">
-                                <h:outputText value="#{ua.id}" />
+                        <p:column headerText="ID">
+                                <h:outputText value="#{hor.id}" />
                             </p:column>
 
-                            <p:column headerText="Nombre">
-                                <h:outputText value="#{ua.nombre}" />
+                            <p:column headerText="Asignación">
+                                <h:outputText value="#{hor.idAsignacion.unidadAprendizaje.nombre}" />
                             </p:column>
 
-                            <p:column headerText="Horas Clase">
-                                <h:outputText value="#{ua.hrsClase}" />
+                            <p:column headerText="Tipo de Asignación">
+                                <h:outputText value="#{hor.idAsignacion.tipoAsignacion}" />
                             </p:column>
 
-                            <p:column headerText="Horas Taller">
-                                <h:outputText value="#{ua.hrsTaller}" />
+                            <p:column headerText="Profesor">
+                                <h:outputText value="#{hor.idAsignacion.profesor.nombre}" />
                             </p:column>
 
-                            <p:column headerText="Horas Lab">
-                                <h:outputText value="#{ua.hrsLab}" />
+                            <p:column headerText="Día">
+                                <h:outputText value="#{hor.dia}" />
                             </p:column>
 
-                            <p:column headerText="Total">
-                                <h:outputText value="#{ua.totalHoras}" />
+                            <p:column headerText="Hora de Inicio">
+                                <h:outputText value="#{hor.hrIn}" />
+                            </p:column>
+
+                            <p:column headerText="Hora de Fin">
+                                <h:outputText value="#{hor.hrFin}" />
                             </p:column>
 
                             <p:column headerText="Acciones">
-                                <p:commandButton icon="pi pi-pencil"
-                                                 title="Editar"
-                                                 actionListener="#{unidadControl.prepararEdicion(ua)}"
-                                                 update=":formEditarUA"
-                                                 oncomplete="PF('dlgEditarUA').show()"
-                                                 styleClass="ui-button-secondary ui-button-text ui-button-rounded action-btn" />
-
                                 <p:commandButton icon="pi pi-trash"
                                                  title="Eliminar"
-                                                 action="#{unidadControl.prepararEliminacion(ua)}"
-                                                 update=":formUnidades:confirmDialog"
+                                                 action="#{horarioControl.prepararEliminacion(hor)}"
+                                                 update=":formHorarios:confirmDialog"
                                                  styleClass="ui-button-danger ui-button-text ui-button-rounded action-btn"
                                                  process="@this"
                                                  oncomplete="PF('confirmDialogWidget').show()" />
                             </p:column>
                         </p:dataTable>
 
-
                         <p:confirmDialog id="confirmDialog"
-                                         header="Eliminar Unidad de Aprendizaje"
-                                         message="Estas seguro de que deseas eliminar esta Unidad Academica? Esta accion no se puede deshacer."
+                                         header="Eliminar Horario"
+                                         message="¿Estás seguro de eliminar este horario? Esta acción no se puede deshacer."
                                          widgetVar="confirmDialogWidget"
                                          closable="false"
                                          draggable="false"
@@ -148,49 +129,14 @@
                                              styleClass="ui-button-secondary ui-button-outlined" />
 
                             <p:commandButton value="Eliminar"
-                                             action="#{unidadControl.eliminarUAConfirmada}"
-                                             process = "@this"
-                                             update=":formUnidades:tablaUnidades"
+                                             action="#{horarioControl.eliminarHorarioConfirmado}"
+                                             process="@this"
+                                             update=":formHorarios:tablaHorarios"
                                              oncomplete="PF('confirmDialogWidget').hide()"
                                              styleClass="ui-button-danger" />
-
-
                         </p:confirmDialog>
-
-
-
-
                     </p:panel>
                 </h:form>
-
-                <p:dialog id="dlgEditarUA" header="Editar Unidad de Aprendizaje"
-                          widgetVar="dlgEditarUA" modal="true" resizable="false" appendTo="@(body)">
-                <h:form id="formEditarUA">
-                <h:panelGrid columns="2" cellpadding="5">
-                    <h:outputLabel value="Nombre:" />
-                    <p:inputText value="#{unidadControl.unidadAEditar.nombre}" />
-
-                    <h:outputLabel value="Horas Clase:" />
-                    <p:spinner value="#{unidadControl.unidadAEditar.hrsClase}" min="0" max="4" />
-
-                    <h:outputLabel value="Horas Taller:" />
-                    <p:spinner value="#{unidadControl.unidadAEditar.hrsTaller}" min="0" max="4" />
-
-                    <h:outputLabel value="Horas Lab:" />
-                    <p:spinner value="#{unidadControl.unidadAEditar.hrsLab}" min="0" max="4" />
-                </h:panelGrid>
-
-                <p:commandButton value="Guardar"
-                                 actionListener="#{unidadControl.guardarEdicion}"
-                                 update=":formUnidades:tablaUnidades"
-                                 oncomplete="PF('dlgEditarUA').hide()"
-                                 styleClass="ui-button-success" />
-
-                <p:commandButton value="Cancelar"
-                                 onclick="PF('dlgEditarUA').hide(); return false;"
-                                 styleClass="ui-button-secondary ui-button-outlined" />
-                </h:form>
-                </p:dialog>
             </div>
         </section>
     </div>
