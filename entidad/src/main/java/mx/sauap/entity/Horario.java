@@ -21,10 +21,8 @@ public class Horario {
     @JoinColumn(name = "ID_Asignacion", nullable = false)
     private Asignacion idAsignacion;
 
-    @NotNull
-    @Lob
-    @Column(name = "dia", nullable = false)
-    private String dia;
+    @Column(name = "dia", length = 3, nullable = false)
+    private Dia dia;
 
     @NotNull
     @Column(name = "hr_in", nullable = false)
@@ -50,11 +48,11 @@ public class Horario {
         this.idAsignacion = idAsignacion;
     }
 
-    public String getDia() {
+    public Dia getDia() {
         return dia;
     }
 
-    public void setDia(String dia) {
+    public void setDia(Dia dia) {
         this.dia = dia;
     }
 

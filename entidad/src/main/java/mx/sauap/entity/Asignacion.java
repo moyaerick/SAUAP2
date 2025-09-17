@@ -30,6 +30,8 @@ public class Asignacion {
     @Column(name = "tipo_asignacion", nullable = false)
     private String tipoAsignacion;
 
+    // ===== GETTERS/SETTERS =====
+
     public Integer getId() {
         return id;
     }
@@ -60,6 +62,18 @@ public class Asignacion {
 
     public void setTipoAsignacion(String tipoAsignacion) {
         this.tipoAsignacion = tipoAsignacion;
+    }
+
+    // ===== NUEVOS GETTERS PARA JSF =====
+    // Esto permite usar #{hor.idAsignacion.unidadAprendizaje.nombre} en el horrario.xhtml
+    @Transient
+    public UnidadAprendizaje getUnidadAprendizaje() {
+        return idUa;
+    }
+    // Esto permite usar #{hor.idAsignacion.profesor.nombre} en el horrario.xhtml
+    @Transient
+    public Profesor getProfesor() {
+        return idProfesor;
     }
 
 }

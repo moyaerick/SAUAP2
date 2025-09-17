@@ -29,7 +29,7 @@ public abstract class Horario_ {
 	/**
 	 * @see mx.sauap.entity.Horario#dia
 	 **/
-	public static volatile SingularAttribute<Horario, String> dia;
+	public static volatile SingularAttribute<Horario, Dia> dia;
 	
 	/**
 	 * @see mx.sauap.entity.Horario#hrIn
