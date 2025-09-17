@@ -52,7 +52,7 @@ public class AsignacionBeanUI implements Serializable {
         nuevaA.setIdUa(ua);
         nuevaA.setTipoAsignacion(tipoAsignacion);
         facade.guardarA(nuevaA);
-        horarioBeanUI.setAsignacion(nuevaA);
+        horarioBeanUI.setAsignacionSeleccionada(nuevaA.getId());
         nuevaA=null;
         return "/asignaciones.xhtml?faces-redirect=true";
     }

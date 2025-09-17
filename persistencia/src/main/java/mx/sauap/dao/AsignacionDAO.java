@@ -20,6 +20,10 @@ public class AsignacionDAO extends AbstractDAO<Asignacion> {
                 .getResultList();
     }
 
+    public Asignacion obtenerPorId(Integer id) {
+        return entityManager.find(Asignacion.class, id);
+    }
+
     public void guardar(Asignacion a) {
         entityManager.getTransaction().begin();
         entityManager.persist(a);

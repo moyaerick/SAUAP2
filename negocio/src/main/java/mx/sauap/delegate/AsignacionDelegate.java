@@ -18,6 +18,10 @@ public class AsignacionDelegate {
         return dao.obtenerTodos();
     }
 
+    public Asignacion consultarAsignacionPorId(Integer id) {
+        return dao.obtenerPorId(id);
+    }
+
     public void insertarA(Asignacion a) {
         dao.guardar(a);
     }

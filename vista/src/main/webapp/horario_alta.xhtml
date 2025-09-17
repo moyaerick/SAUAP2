@@ -135,13 +135,13 @@
             font-size:13px;
             display:block; }
     </style>
-    <title>SAUAP - Unidades de Aprendizaje</title>
+
+    <title>SAUAP - Alta de Horario</title>
     <h:outputStylesheet library="primefaces" name="primeicons/primeicons.css"/>
 </h:head>
 
 <h:body>
     <div class="app">
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
                 <p:graphicImage url="resources/user.png" styleClass="logo-mini" />
@@ -153,7 +153,7 @@
 
             <div class="nav">
                 <h:link outcome="/index"        styleClass="nav-item"><i class="pi pi-home"></i>         <span class="nav-text">Panel de Control</span></h:link>
-                <h:link outcome="/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>        <span class="nav-text">Profesores</span></h:link>
+                <h:link outcome="/profesores_control/profesores"   styleClass="nav-item"><i class="pi pi-users"></i>        <span class="nav-text">Profesores</span></h:link>
                 <h:link outcome="/unidades"     styleClass="nav-item"><i class="pi pi-book"></i>         <span class="nav-text">Unidades de Aprendizaje</span></h:link>
                 <h:link outcome="/asignaciones" styleClass="nav-item"><i class="pi pi-list-check"></i>   <span class="nav-text">Asignaciones</span></h:link>
                 <h:link outcome="/horarios"     styleClass="nav-item"><i class="pi pi-calendar"></i>     <span class="nav-text">Horarios</span></h:link>
@@ -175,73 +175,66 @@
             </div>
 
             <div class="main">
-                <h1>Nueva Unidad de Aprendizaje</h1>
+                <h1>Nuevo Horario</h1>
                 <div class="subtitle">
-                    Registra una nueva unidad académica en el sistema
+                    Registra un nuevo horario en el sistema
                 </div>
-
+                <p:messages id="msgs" showDetail="true" closable="true"/>
                 <!-- Formulario -->
-                <h:form id="formAlta">
+                <h:form id="formAltaHorario">
                     <div class="panel-body">
                         <div class="form-group" style="padding-bottom: 10px;">
-                            <p:outputLabel class="form-label" style="font-size:20px;" value="Información de la Unidad de Aprendizaje"/>
+                            <p:outputLabel class="form-label" style="font-size:20px;" value="Información del Horario"/>
                             <p:outputLabel class="form-label" style="font-weight:normal;" value="Completa todos los campos"/>
                         </div>
 
+                        <!-- Selección de Asignación -->
                         <div class="form-group" style="padding-bottom: 10px;">
-                            <p:outputLabel class="form-label" value="Nombre de la Unidad de Aprendizaje"/>
-                            <p:inputText class="form-control" style="width:70%;"
-                                         placeholder="Ingrese el nombre de la unidad:"
-                                         value="#{unidadControl.nuevaUA.nombre}"/>
-                        </div>
-
-                        <div class="form-group" style="padding-bottom: 10px;">
-                            <p:outputLabel class="form-label" value="Horas Taller"/>
-                            <p:selectOneMenu style="width:70%;"
-                                             value="#{unidadControl.nuevaUA.hrsTaller}">
-                                <f:selectItem itemLabel="0 horas" itemValue="0"/>
-                                <f:selectItem itemLabel="1 horas" itemValue="1"/>
-                                <f:selectItem itemLabel="2 horas" itemValue="2"/>
-                                <f:selectItem itemLabel="3 horas" itemValue="3"/>
-                                <f:selectItem itemLabel="4 horas" itemValue="4"/>
+                            <p:outputLabel class="form-label" value="Asignación"/>
+                            <p:selectOneMenu style="width:70%;" value="#{unidadHorario.asignacionSeleccionada}">
+                                <f:selectItem itemLabel="-- Seleccione una Asignación --" itemValue="#{null}" noSelectionOption="true"/>
+                                <f:selectItems value="#{unidadHorario.listaAsignaciones}" var="asig"
+                                               itemLabel="#{asig.idUa.nombre} - #{asig.idProfesor.nombre}"
+                                               itemValue="#{asig.id}"/>
                             </p:selectOneMenu>
+
                         </div>
 
+                        <!-- Día -->
                         <div class="form-group" style="padding-bottom: 10px;">
-                            <p:outputLabel class="form-label" value="Horas Laboratorio"/>
-                            <p:selectOneMenu style="width:70%;"
-                                             value="#{unidadControl.nuevaUA.hrsLab}">
-                                <f:selectItem itemLabel="0 horas" itemValue="0"/>
-                                <f:selectItem itemLabel="1 horas" itemValue="1"/>
-                                <f:selectItem itemLabel="2 horas" itemValue="2"/>
-                                <f:selectItem itemLabel="3 horas" itemValue="3"/>
-                                <f:selectItem itemLabel="4 horas" itemValue="4"/>
+                            <p:outputLabel class="form-label" value="Día"/>
+                            <p:selectOneMenu value="#{unidadHorario.diaSeleccionado}">
+                                <f:selectItems value="#{unidadHorario.listaDias}" var="d"
+                                               itemLabel="#{d.name()}" itemValue="#{d}" />
                             </p:selectOneMenu>
+
                         </div>
 
-                        <div class="form-group" style="padding-bottom: 10px;">
-                            <p:outputLabel class="form-label" value="Horas Clase"/>
-                            <p:selectOneMenu style="width:70%;"
-                                             value="#{unidadControl.nuevaUA.hrsClase}">
-                                <f:selectItem itemLabel="0 horas" itemValue="0"/>
-                                <f:selectItem itemLabel="1 horas" itemValue="1"/>
-                                <f:selectItem itemLabel="2 horas" itemValue="2"/>
-                                <f:selectItem itemLabel="3 horas" itemValue="3"/>
-                                <f:selectItem itemLabel="4 horas" itemValue="4"/>
-                            </p:selectOneMenu>
-                        </div>
+                        <!-- Hora Inicio -->
+                        <p:outputLabel class="form-label" value="Hora Inicio"/>
+                        <p:selectOneMenu style="width:70%;" value="#{unidadHorario.hrInSeleccionada}">
+                            <f:selectItem itemLabel="-- Seleccione hora --" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{unidadHorario.listaHoras}" var="h" itemLabel="#{h}:00" itemValue="#{h}"/>
+                        </p:selectOneMenu>
 
+                        <!-- Hora Fin -->
+                        <p:outputLabel class="form-label" value="Hora Fin"/>
+                        <p:selectOneMenu style="width:70%;" value="#{unidadHorario.hrFinSeleccionada}">
+                            <f:selectItem itemLabel="-- Seleccione hora --" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{unidadHorario.listaHoras}" var="h" itemLabel="#{h}:00" itemValue="#{h}"/>
+                        </p:selectOneMenu>
+
+                        <!-- Botones -->
                         <div style="text-align: center; padding-top: 10px;">
                             <p:commandButton value="Guardar"
                                              styleClass="btn btn-success"
                                              style="width: 35%; margin-right:10px;"
-                                             action="#{unidadControl.guardarUAAlta}"
+                                             action="#{unidadHorario.guardarHorarioAlta}"
                                              ajax="false"/>
 
-                            <p:commandButton value="Cancelar"
-                                             style="width: 35%; background:white; color:black;"
-                                             action="#{unidadControl.cancelarAlta}"
-                                             immediate="true" ajax="false"/>
+                            <p:button value="Cancelar"
+                                      outcome="/horarios"
+                                      styleClass="ui-button-success btn-new"/>
                         </div>
                     </div>
                 </h:form>
