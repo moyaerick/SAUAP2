@@ -129,7 +129,7 @@ public class HorarioBeanUI implements Serializable {
                 case "taller":
                     maxPermitidas = ua.getHrsTaller();
                     break;
-                case "laboratorio":
+                case "lab":
                     maxPermitidas = ua.getHrsLab();
                     break;
                 default:
