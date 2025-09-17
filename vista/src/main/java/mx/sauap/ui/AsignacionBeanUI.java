@@ -42,6 +42,7 @@ public class AsignacionBeanUI implements Serializable {
         return "/asignacion_alta.xhtml?faces-redirect=true";
     }
 
+    //Guardar los datos
     public String guardarAAlta(){
         Profesor prof=facade.buscarProfesorPorId(this.idProfesor);
         UnidadAprendizaje ua=facade.buscarUnidadPorId(this.idUA);
